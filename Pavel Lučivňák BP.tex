@@ -11,7 +11,8 @@
 \usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
 
 \usepackage{graphicx} %graphics files inclusion
-% \usepackage{amsmath} %advanced maths
+\usepackage{amsmath} %advanced maths
+\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
 % \usepackage{amssymb} %additional math symbols
 
 \usepackage{dirtree} %directory tree visualisation
@@ -76,7 +77,7 @@ A Hidden Markov Model (HMM) is defined by
 	\centering
  	\includegraphics[width=0.7\textwidth]{hmm}
  	\caption{Visualization of a Hidden Markov Model. At each time point, there is a hidden state $s_i$ and an observed state $x_i$.}
- 	\label{fig:float}
+ 	\label{fig:hmm}
 \end{figure}
 
 The aforementioned functions return a probability. This means the resulting number lies in interval $[0, 1]$ and the sum of returned numbers for all function parameters adds to 1.
@@ -113,6 +114,80 @@ Learning is used to calculate the model parameters $\{I, E, T\} = \lambda$. It i
 Inference returns the most likely sequence of hidden states, given a sequence of observed states.
 
 \subsubsection{Scoring?}
+
+\subsection{Learning}
+
+\subsubsection{Maximum likelihood estimation}
+
+This method uses maximum likelihood estimation (MLE) to compute model parameters. MLE is a technique for finding parameters of a probabilistic model that best describe behavior of a random variable. The method aims to maximize the likelihood of all the learning data.
+
+Formally $\argmax_{\theta \in \Theta} \prod_{j=1}^{M} L(x_j, \theta)$, where:
+
+\begin{itemize}
+
+\item $M$ is number of data points
+\item $x_j$ is a j-th data point
+\item \emph{L} is a likelihood function (defined further)
+\item $\theta$ describes model parameters
+\item $\Theta$ is a set of all model parameters
+
+\end{itemize}
+
+Let's examine how one can view parameters of HMM as probabilistic functions of random variables.
+
+\paragraph{Initial transition function}
+
+Function \emph{I}: $S \mapsto \textbf R$ is in fact a probability function corresponding to random variable \emph{S}. To represent it, let's use a discrete probabilistic model with parameter $\epsilon$.
+
+\paragraph{Transition function}
+
+Since the function is $S \times S \mapsto \textbf R$, one can think about it the following way. For each hidden state $s \in S$, there is a probability function $S \mapsto \textbf R$. We can represent such a function in the same way as the initial transition function. Therefore for each hidden state $s \in S$, there is a discrete probabilistic model with parameter $\epsilon$.
+
+\paragraph{Emission function}
+
+Since \emph{E}: $S \times X \mapsto \textbf R$, one can think about it this way. For each hidden state $s \in S$, there is a probability function $X \mapsto \textbf R$. This function can be represented by a continuous probabilistic model. For purposed of this thesis, it is assumed that continuous random variables have Gaussian or Gaussian mixture distribution.
+
+\paragraph{Discrete random variables}
+
+Here I present a straightforward way of defining the $L$ likelihood function in case of discrete random variables. $L(x,\theta) = x_{cnt} / M$, where $x_{cnt}$ is the number of times $x$ occurs in learning data. The number of data points is $M$. Since the likelihood function does not depend on parameter $\theta$, there is no expression to optimize.
+
+There is a reason I did not choose any standard discrete probability distribution to define $L$. The random variable does not have to be \textbf Z, nor \textbf N. In fact it can be any abstract object, such as an animal. A type, where comparison between two objects doesn't make sense. Therefore, it wouldn't make sense to assign non zero probability to values that are not specified in learning phase.
+
+As an example, consider the following data: \{dog, bird, dog, cat, bird, dog\}. Figure \ref{fig:discrete_mle_prob} shows a likelihood function $L$ associated with the data.
+
+% TODO: consider two figures side by side
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{discrete_mle_hist}
+ 	\caption{Frequency of data in discrete data set.}
+ 	\label{fig:discrete_mle_hist}
+\end{figure}
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{discrete_mle_prob}
+ 	\caption{Likelihood function $L$ of data in discrete data set. Probability is zero at undefined states.}
+ 	\label{fig:discrete_mle_prob}
+\end{figure}
+
+\paragraph{Continuous random variables}
+% TODO: equations should be on separate lines
+Let's consider Gaussian (normal) distribution, defined by $\theta = \{\mu, \sigma^2\}$. The goal is to find parameter $\theta \in \Theta$, such that the product $\prod_{j=1}^{M} L(x_j, \theta)$ is maximized. In case of Gaussian distribution, the likelihood function $L$ is defined by $\frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$.
+
+Taking derivative with respect to $\mu$ equal to 0 yields $\sum_{j=1}^{M}{x_j - M \mu} = 0$. Maximum likelihood estimate of $\mu$ is therefore equal to $\overline X_M$.
+
+Derivative with respect to $\sigma^2$ equal to zero results in MLE of $\sigma^2$ to be equal to $\frac{1}{M} \sum_{j=1}^{M} {(X_j-\overline X_M)^2}$.
+
+Figure \ref{fig:normal_mle} shows an example of MLE on normally distributed random variable.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{normal_mle}
+ 	\caption{Histogram of randomly generated data from normal distribution $\mathcal{N}(40,32^2)$. The green curve is a plot of normal distribution with the maximum likelihood estimate of $\theta$ parameters.}
+ 	\label{fig:normal_mle}
+\end{figure}
+
+TODO: Gaussian mixtures 
 
 \chapter{Návrh}
 
