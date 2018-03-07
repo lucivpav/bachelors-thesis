@@ -512,20 +512,23 @@ sp\^ osobom, ktor\'y nezni\v zuje hodnotu Diela (vr\'atane komer\v cn\'eho vyu\v
 
 \AfterEndPreamble{
 	\thispagestyle{empty}
-	\if\@lang1{A dynamic naive Bayes classifier (DNBC) is an extension of the popular probabilistic graphical model called hidden Markov model. Output variables are assumed to be statistically independent, which helps us in case of the curse of dimensionality occurring in high-dimensional space. Moreover, output variables that come from different probability distributions can be learned easier.
+	\if\@lang1{}
+	\else\if\@lang2{Sem vlo{\v z}te zadanie Va{\v s}ej pr{\' a}ce.}\else{
+	A dynamic naive Bayes classifier (DNBC) is an extension of the popular probabilistic graphical model called hidden Markov model. Output variables are assumed to be statistically independent, which helps us in case of the curse of dimensionality occurring in high-dimensional space. Moreover, output variables that come from different probability distributions can be learned easier.
 
 
 This thesis aims to create a parallel implementation of DNBC that can be easily executed on a computational cluster. For that reason, the algorithm will be implemented in the Scala language on top of Apache Spark.
 
+\begin{enumerate}
+\item Study DNBC and its possibilities of parallelism.
 
-1) Study DNBC and its possibilities of parallelism.
+\item Implement DNBC that is applicable for both discrete and continuous output variables.
 
-2) Implement DNBC that is applicable for both discrete and continuous output variables.
+\item Parallelize the implementation on top of Apache Spark.
 
-3) Parallelize the implementation on top of Apache Spark.
-
-4) Evaluate the parallel implementation and compare it with the sequential implementation in terms of parallel scalability.}
-	\else\if\@lang2{Sem vlo{\v z}te zadanie Va{\v s}ej pr{\' a}ce.}\else{Insert here your thesis' task.}\fi\fi
+\item Evaluate the parallel implementation and compare it with the sequential implementation in terms of parallel scalability.
+\end{enumerate}
+	}\fi\fi
 
 	\frontmatter
 	\pagestyle{plain}
