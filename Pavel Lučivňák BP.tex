@@ -189,6 +189,42 @@ Figure \ref{fig:normal_mle} shows an example of MLE on normally distributed rand
 
 TODO: Gaussian mixtures 
 
+\subsection{Inference}
+
+Given a sequence of observed states, what is the most likely associated sequence of hidden states? Viterbi algorithm answers this question. Let's define $a_t(i)$ to be the maximum probability of sequence of hidden and observed states up to time point $t$:
+
+\begin{equation} \label{eq:viterbi_a}
+a_t(i) = max_{s_1,s_2,\dots,s_{t-1}} P(s_1,s_2,\dots,s_{t-1},s_t = S_i,x_1,x_2,\dots,x_t | \theta)
+\end{equation}
+
+Where $S_i$ is a function $\textbf N \mapsto S$, assigning a unique index to each hidden state in $S$.
+
+\paragraph{Initialization}
+
+At time point $t=1$, the probability of being at hidden state $S_i$ is simply the initial probability of being at that state and a probability of being at observed state $x_1$ given hidden state $S_i$. In another words:
+
+\begin{equation}
+a_1(i) = I(S_i)E(S_i,x_1)
+\end{equation}
+
+\paragraph{Recursion}
+Taking into account the structure of HMM, the equation \ref{eq:viterbi_a} can be rewritten recursively as
+
+\begin{equation} \label{eq:viterbi_a_rec}
+a_t(j) = [\max_i a_{t-1}(i)T(S_i,S_j)] E(S_j,x_t)
+\end{equation}
+
+Hidden state at particular time point $t$ is determined by
+
+\begin{equation}
+s_t = S_{\argmax_i a_{t}(i)}
+\end{equation}
+
+\paragraph{Complexity}
+
+At each time point $t$ and hidden state index $j$, the equation \ref{eq:viterbi_a_rec} loops through every hidden state index $i$. There are $\vert{S}\vert$ hidden states. In addition, the recursion continues for every time point $t$. There are $L$ time points. Thus the overall complexity is
+${\vert{S}\vert}^2 L$.
+
 \chapter{Návrh}
 
 \chapter{Realizace}
@@ -208,7 +244,6 @@ TODO: Gaussian mixtures
 	\item[GUI] Graphical user interface
 	\item[XML] Extensible markup language
 \end{description}
-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % Tuto kapitolu z výsledné práce ODSTRAŇTE.
