@@ -88,7 +88,7 @@ Given the following:
 
 \begin{enumerate}
 
-\item A number $L \in [1, \inf]$
+\item A number $L \in [1, \inf)$
 \item A sequence of hidden states of length \emph{L}
 \item A sequence of observed states of length \emph{L}
 \item An index \emph{i} $\in [1, L]$: one can think of this as a discrete point in time
@@ -193,11 +193,11 @@ TODO: Gaussian mixtures
 
 Given a sequence of observed states, what is the most likely associated sequence of hidden states? Viterbi algorithm answers this question. Let's define $a_t(i)$ to be the maximum probability of sequence of hidden and observed states up to time point $t$:
 
-\begin{equation} \label{eq:viterbi_a}
+\begin{equation} \label{eq:hmm_viterbi_a}
 a_t(i) = max_{s_1,s_2,\dots,s_{t-1}} P(s_1,s_2,\dots,s_{t-1},s_t = S_i,x_1,x_2,\dots,x_t | \theta)
 \end{equation}
 
-Where $S_i$ is a function $\textbf N \mapsto S$, assigning a unique index to each hidden state in $S$.
+Where $S_i$ is a function $\textbf N \mapsto S$, assigning a unique index to each hidden state in $S$. $\theta$ are parameters of HMM model.
 
 \paragraph{Initialization}
 
@@ -208,9 +208,9 @@ a_1(i) = I(S_i)E(S_i,x_1)
 \end{equation}
 
 \paragraph{Recursion}
-Taking into account the structure of HMM, the equation \ref{eq:viterbi_a} can be rewritten recursively as
+Taking into account the structure of HMM, the equation \ref{eq:hmm_viterbi_a} can be rewritten recursively as
 
-\begin{equation} \label{eq:viterbi_a_rec}
+\begin{equation} \label{eq:hmm_viterbi_a_rec}
 a_t(j) = [\max_i a_{t-1}(i)T(S_i,S_j)] E(S_j,x_t)
 \end{equation}
 
@@ -222,8 +222,111 @@ s_t = S_{\argmax_i a_{t}(i)}
 
 \paragraph{Complexity}
 
-At each time point $t$ and hidden state index $j$, the equation \ref{eq:viterbi_a_rec} loops through every hidden state index $i$. There are $\vert{S}\vert$ hidden states. In addition, the recursion continues for every time point $t$. There are $L$ time points. Thus the overall complexity is
+At each time point $t$ and hidden state index $j$, the equation \ref{eq:hmm_viterbi_a_rec} loops through every hidden state index $i$. There are $\vert{S}\vert$ hidden states. In addition, the recursion continues for every time point $t$. There are $L$ time points. Thus the overall complexity is
 ${\vert{S}\vert}^2 L$.
+
+\section{Dynamic naive Bayesian classifier}
+
+\subsection{Description}
+
+Dynamic naive Bayesian classifier (DNBC) is an extension of Hidden Markov Model (HMM). The difference is that there may be a number of observed variables. In contrast, HMM is defined for only one observed variable. Figure \ref{fig:dnbc} demonstrates model structure with 2 observed variables. DNBC is defined by
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{dnbc}
+ 	\caption{Visualization of a Dynamic naive Bayesian classifier with two observed variables. At each time point, there is a hidden state $s_i$ and two observed states: $x_i^1$ and $x_i^2$.}
+ 	\label{fig:dnbc}
+\end{figure}
+
+\begin{enumerate}
+
+\item{Number of observed variables $N$}
+\item{Initial transition function $I: S \mapsto \textbf R$}
+\item{Transition function $T: S \times S \mapsto \textbf R$}
+\item{Emission functions $E^j: S \times X^j \mapsto \textbf R, j \in [1,N]$}
+\item{Set of hidden states $S$}
+\item{Sets of observed states $X^j, j \in [1,N]$}
+
+\end{enumerate}
+
+Each set of observed variables contains a set of observed states. This set can be either discrete or continuous. The set of hidden states is assumed to be discrete.
+
+Given the following:
+
+\begin{enumerate}
+
+\item A number $L \in [1, \inf)$
+\item A sequence of hidden states of length \emph{L}
+\item Sequences of observed states of length \emph{L}
+\item An index \emph{i} $\in [1, L]$: one can think of this as a discrete point in time
+
+\end{enumerate}
+
+At time point \emph{i}, there is a hidden state $s_i$ and $N$ observed states $x^j_i$ where $j \in [1,N]$. Value of every observed state depends on value of the hidden state. The dependency is described by emission function $E^j$. An important property of DNBC is that the observed variables are assumed to be independent. Therefore, DNBC does not define any dependency function between two observed variables.
+
+If $i \neq 1$ and $L > 1$, there is a hidden state $s_i$ that depends on value of previous hidden state $s_{i-1}$. The dependency is described by transition function \emph{T}.
+
+If $i = 1$, there is a hidden state $s_1$ that depends on initial transition function \emph{I}.
+
+\subsection{Operations}
+
+There are two most important operations that can be performed on DNBC. Learning and inference.
+
+\subsubsection{Learning}
+
+Learning is used to calculate the model parameters $\{I,T,E^1,E^2,\dots,E^N\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x_j | \lambda )$ is maximized. Where $M \in \textbf N$ is a number of sequences to be learned. $\textbf x_j$ is a \emph{j}-th sequence of observed states. In another words, it is desired to maximize the product of probabilities that given sequence of observed states was generated by given model.
+
+\subsubsection{Inference}
+
+Inference returns the most likely sequence of hidden states, given sequences of observed states. Each sequence of observed states corresponds to particular observed variable. Each sequence thus has the same number of elements.
+
+\subsection{Learning}
+
+\subsubsection{Maximum likelihood estimation}
+
+This learning approach is similar to one described in case of HMM. The only difference is that there are multiple emission functions $E^j$ where $j \in [1,N]$. Every emission function is defined as $E^j: S \times X^j \mapsto \textbf R$. For every $j$ and hidden state $s \in S$, there is a probability function $X^j \mapsto \textbf R$. This function can be represented by continuous probabilistic model. Therefore, there is now $N \times \vert{S}\vert$ continuous distributions to be learned. Each distribution is assumed to be Gaussian or Gaussian mixture.
+
+\subsection{Inference}
+
+Inference algorithm is again Viterbi. It is simply extended to support multiple observed variables. Let $x_t^j$ be a sequence of observed states of variable $j$ up to time point $t$.
+
+\begin{equation}
+x_t^j = x_1^j,x_2^j,\dots,x_t^j
+\end{equation}
+
+Let's define $a_t(i)$ to be the maximum probability of sequence of hidden and sets of observed states up to time point $t$:
+
+\begin{equation} \label{eq:dnbc_viterbi_a}
+a_t(i) = max_{s_1,s_2,\dots,s_{t-1}} P(s_1,s_2,\dots,s_{t-1},s_t = S_i,x_t^1,x_t^2,\dots,x_t^N| \theta)
+\end{equation}
+
+Where $S_i$ is a function $\textbf N \mapsto S$, assigning a unique index to each hidden state in $S$. $\theta$ are parameters of DNBC model.
+
+\paragraph{Initialization}
+
+At time point $t=1$, the probability of being at hidden state $S_i$ is equal to the initial probability of being at that state and probabilities of being at observed state $x_1^j$ given hidden state $S_i$. In another words:
+
+\begin{equation}
+a_1(i) = I(S_i) \prod_{j=1}^N E^j(S_i,x^j_1)
+\end{equation}
+
+\paragraph{Recursion}
+Taking into account the structure of DNBC, the equation \ref{eq:dnbc_viterbi_a} can be rewritten recursively as
+
+\begin{equation} \label{eq:dnbc_viterbi_a_rec}
+a_t(j) = [\max_i a_{t-1}(i)T(S_i,S_j)] \prod_{k=1}^N E^k(S_j,x^k_t)
+\end{equation}
+
+Hidden state at particular time point $t$ is determined by
+
+\begin{equation}
+s_t = S_{\argmax_i a_{t}(i)}
+\end{equation}
+
+\paragraph{Complexity}
+
+At each time point $t$ and hidden state index $j$, the equation \ref{eq:dnbc_viterbi_a_rec} loops through every hidden state index $i$ and every observed variable index $k$. There are $\vert{S}\vert$ hidden states and $N$ observed variables. In addition, the recursion continues for every time point $t$. There are $L$ time points. Thus the overall time complexity is
+${\vert{S}\vert}(\vert{S}\vert+N) L$.
 
 \chapter{Návrh}
 
