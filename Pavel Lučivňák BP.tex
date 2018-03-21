@@ -56,6 +56,56 @@
 
 \chapter{Cíl práce}
 
+\chapter{Mathematical background}
+
+\section{Probability density function}
+
+Probability density function (PDF) of a continuous random variable determines a likelihood that a given value occurs. Furthermore, \ref{eq:pdf_interval} gives a probability of value being in interval $[a,b]$.
+
+\begin{equation} \label{eq:pdf_interval}
+P(a \leq x \leq b) = \int_a^b \text{PDF}(x) dx
+\end{equation}
+
+To satisfy the property that $P(-\inf < x < \inf) = 1$, the following has to hold:
+
+\begin{equation}
+\int_{-\inf}^{\inf} \text{PDF}(x) dx = 1
+\end{equation}
+
+\section{Gaussian distribution}
+
+Gaussian (normal) distribution is defined by a probability density function
+
+\begin{equation} \label{eq:gaussian_pdf}
+\text{PDF}_\mathcal{N}(x) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
+\end{equation}
+
+The function is defined by two values - mean $\mu$ and variance $\sigma^2$. Figure \ref{fig:gaussian} provides a visualization of the probability density function.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{gaussian}
+ 	\caption{Visualization of Gaussian PDF with parameters $\mu=10$ and $\sigma^2=3^2$.}
+ 	\label{fig:gaussian}
+\end{figure}
+
+TODO: mention why normal distribution is so important?
+
+\section{Gaussian mixture distribution}
+
+Combining multiple Gaussian distributions together results in Gaussian mixture distribution. The PDF is given by \ref{eq:gaussian_mixture_pdf}, where $n$ is number of mixtures.
+
+\begin{equation} \label{eq:gaussian_mixture_pdf}
+\text{PDF}_{\mathcal{N}^*}(x) = \sum_{i=1}^n \text{PDF}_{\mathcal{N}_i}(x)
+\end{equation}
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{gaussian_mixture}
+ 	\caption{Visualization of a mixture of three Gaussian distributions with parameters $\mu_1=5, \mu_2=10, \mu_3=15$ and $\sigma_{1,2,3}^2=2^2$. Author: Smason79, Wikimedia}
+ 	\label{fig:gaussian_mixture}
+\end{figure}
+
 \chapter{Analysis}
 
 \section{Hidden Markov Model}
