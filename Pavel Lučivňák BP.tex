@@ -96,7 +96,17 @@ TODO: mention why normal distribution is so important?
 Combining multiple Gaussian distributions together results in Gaussian mixture distribution. The PDF is given by \ref{eq:gaussian_mixture_pdf}, where $n$ is number of mixtures.
 
 \begin{equation} \label{eq:gaussian_mixture_pdf}
-\text{PDF}_{\mathcal{N}^*}(x,\theta) = \sum_{i=1}^n \text{PDF}_{\mathcal{N}}(x,\mu_i,\sigma^2_i)
+\text{PDF}_{\mathcal{N}^*}(x,\theta) = \sum_{i=1}^n w_i \text{PDF}_{\mathcal{N}}(x,\mu_i,\sigma^2_i)
+\end{equation}
+
+Where $w_i$ is a weight of particular normal distribution. The following conditions have to hold:
+
+\begin{equation}
+w_i \geq 0, 1 \leq i \leq n
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^n w_i = 1
 \end{equation}
 
 \begin{figure}
