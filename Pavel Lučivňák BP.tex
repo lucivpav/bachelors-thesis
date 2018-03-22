@@ -265,7 +265,13 @@ Figure \ref{fig:normal_mle} shows an example of MLE on normally distributed rand
 
 \paragraph{Gaussian mixture distribution}
 TODO: not a MLE!
-TODO: pretty image of estimated mixture model given random data
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{gaussian_mixture_estimate}
+ 	\caption{Histogram of randomly generated data from two normal distributions $\mathcal{N}(10,5^2)$ and $\mathcal{N}(30,4^2)$. The green curve is the best estimate, found using EM algorithm, of underlying normal mixture distribution. Dotted curves are estimates of particular normal distributions that are part of the Gaussian mixture.}
+ 	\label{fig:gaussian_mixture_est}
+\end{figure}
 
 Given $K$ gaussians, there are $K$ parameters $\theta_1, \theta_2, \dots, \theta_K$ to estimate. Here I provide description of Expectation-Maximization algorithm based on TODO. This algorithm provides an estimate of the aforementioned parameters.
 
