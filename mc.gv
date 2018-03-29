@@ -1,0 +1,11 @@
+digraph G {
+  sunny -> sunny [ label="0.6" ]
+  sunny -> rainy [ label="0.1" ]
+  sunny -> cloudy [ label="0.3" ]
+  rainy -> rainy [ label="0.7" ]
+  rainy -> sunny [ label="0.1" ]
+  rainy -> cloudy [ label="0.2" ]
+  cloudy -> cloudy [ label="0.4" ]
+  cloudy -> sunny [ label="0.3" ]
+  cloudy -> rainy [ label="0.3" ]
+}

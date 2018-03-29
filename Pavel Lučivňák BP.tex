@@ -118,6 +118,60 @@ w_i \geq 0, 1 \leq i \leq n
 
 \chapter{Analysis}
 
+\section{Markov chain}
+
+\subsection{Introduction}
+Markov chain describes possible sequences of events in which a probability of being at a state at given time depends only on value of previous state. 
+
+\subsection{Description}
+
+A Markov chain is defined by
+
+\begin{itemize}
+\item set of states $S = \{S_1, S_2, \dots, S_N\}$,
+\item transition matrix $A \in \textbf R^{N \times N}$,
+\item initial probability vector $\pi \in \textbf R^N$.
+\end{itemize}
+
+Where $a_{ij}, 1 \leq i,j \leq N$ is a probability of transitioning from state $S_i$ into state $S_j$. $\pi_i$ is a probability that the initial state is $S_i$.
+
+Suppose a sequence of states $q_1, q_2, \dots, q_T$, where $T \geq 2$. At time $t$, where $1 \leq t \leq T-1$, there is a probability $P(q_{t+1}=S_j | q_t=S_i)$. This probability is described by $a_{ij}$.
+
+\subsection{Markov property}
+Markov chain satisfies a Markov property. This property says that $P(q_{t+1}=S_i|q_1=s_1,q_2=s_2,\dots,q_t=s_t) = P(q_{t+1}=S_{i}|q_t=s_t)$. In another words, being at state $S_i$ at time $t+1$ only conditionally depends on being at state $s_t$ at time $t$. Further history doesn't influence the probability.
+
+\subsection{Example}
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{mc}
+ 	\caption{Visualization of a Markov chain with three states.}
+ 	\label{fig:mc}
+\end{figure}
+
+As an example, consider a Markov chain (MC) with three states: $S_1 = \text sunny$, $S_2 = \text rainy$ and $S_3 = \text cloudy$. This MC models how weather changes on every day. Suppose the following transition matrix:
+
+\begin{equation}
+A =
+\begin{bmatrix}
+	0.6	& 0.1 & 0.3 \\
+	0.1 & 0.7 & 0.2 \\
+	0.3 & 0.3 & 0.4
+\end{bmatrix}
+\end{equation}
+
+If the weather is sunny, tomorrow will be most likely sunny as well. With probability 0.3 it will be cloudy. Rainy weather is very unlikely tomorrow. Consider the following initial probability vector:
+
+\begin{equation}
+\pi = \begin{bmatrix} 0.3 \\ 0.2 \\ 0.5 \end{bmatrix}
+\end{equation}
+
+The most likely weather on first day of measurement is cloudy.
+
+\subsection{Limitations}
+
+The previous example only takes into account weather at time $t$ to predict weather at time $t+1$. In reality, there are multiple factors that influence what the weather will be like. According to the example, if a weather is sunny now, it is unlikely it will start raining. If we, however, take into account humidity, we can improve the prediction. If we know that humidity is high, even though it was sunny, we can predict it started raining. Hidden Markov Model addresses this issue.
+
 \section{Hidden Markov Model}
 
 \subsection{Description}
