@@ -1,0 +1,5 @@
+digraph G {
+  dehydration -> cancer
+  dehydration -> "red skin"
+  cancer -> "red skin"
+}

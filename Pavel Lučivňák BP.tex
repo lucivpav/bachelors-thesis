@@ -418,6 +418,71 @@ Suppose an extension of an example mentioned in Markov chain chapter. i.e. there
 \subsection{Limitations}
 There is only one observed variable, which may not be sufficient for successful prediction in real-life applications. One could increase the dimensionality of the obsereved variable. That would, however, lead to a problem called curse of dimensionality. As we would increase the dimensionality of observed variable, the learning time would increase greatly up to the point where it would no longer be tractable. Dynamic naive Bayesian classifier addresses this issue.
 
+\section{Bayesian networks}
+
+Bayesian networks are a probabilistic graphical model consisting of nodes and edges. The model is a directed acyclic graph (DAG). Every node describes a random variable which can be either discrete or continuous. Edges describe a conditional dependency among the nodes (variables).
+
+As an example, consider a Bayesian network in figure \ref{fig:bn}. Every node represents a discrete random variable with two possible states - $true$ and $false$. It can be imagined that dehydration can cause red skin, but it can also influence presence of cancer. In addition, red skin may signal a lack of water intake, or the skin may be red because of cancer cells. Every node defines a conditional probability table (CPT) given nodes it depends on.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{bn}
+ 	\caption{Visualization of a Bayesian network with three states.}
+ 	\label{fig:bn}
+\end{figure}
+
+\begin{table}
+\parbox{0.45\linewidth}{
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{dehydration}  \\
+\hline
+true & false \\
+\hline
+0.1 & 0.9 \\
+\hline
+\end{tabular}
+\caption{CPT for $dehydration$}
+}
+\hfill
+\parbox{0.45\linewidth}{
+\centering
+\begin{tabular}{|c||c|c|}
+\hline
+input & \multicolumn{2}{c|}{cancer} \\
+\hline
+dehydration & true & false \\
+\hline
+true & 0.1 & 0.9 \\
+\hline
+false & 0.01 & 0.99 \\
+\hline
+\end{tabular}
+\caption{CPT for $cancer$}
+}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c||c|c|}
+\hline
+\multicolumn{2}{|c||}{input} & \multicolumn{2}{c|}{red skin} \\
+\hline
+cancer & dehydration & true & false \\
+\hline
+true & true & 0.4 & 0.6 \\
+\hline
+true & false & 0.3 & 0.7 \\
+\hline
+false & true & 0.4 & 0.6 \\
+\hline
+false & false & 0.1 & 0.9 \\
+\hline
+\end{tabular}
+\caption{CPT for $red$ $skin$}
+\end{table}
+
 \section{Dynamic naive Bayesian classifier}
 
 \subsection{Description}
