@@ -483,6 +483,30 @@ false & false & 0.1 & 0.9 \\
 \caption{CPT for $red$ $skin$}
 \end{table}
 
+\section{Naive Bayesian classifier}
+
+Naive Bayesian classifier is a classifier (model that assigns class labels to given inputs) where features (random variables) are assumed to be conditionally independent from each other.
+
+Imagine we would like to classify a class $C_k$ given feature vector $\textbf x$:
+
+\begin{equation}
+P(C_k | x_1, x_2, \dots, x_n).
+\end{equation}
+
+Using Bayes' theorem, the conditional probability can be rewritten as
+
+\begin{equation}
+P(C_k | \textbf x) = \frac{P(C_k,\textbf x)}{P(\textbf x)} = \frac{P(C_k) P(\textbf x | C_k)}{P(\textbf x)}.
+\end{equation}
+
+Because the features are assumed to be conditionally independent from each other, the probability in numerator can be rewritten as
+
+\begin{equation}
+P(\textbf x | C_k) = P(x_1|C_k) P(x_2|C_k) \cdots P(x_n|C_k).
+\end{equation}
+
+Because of the independence assumption, learning of the classifier can be performed in short time compared to the learning time required by other classifier types ref:TODO.
+
 \section{Dynamic naive Bayesian classifier}
 
 \subsection{Description}
