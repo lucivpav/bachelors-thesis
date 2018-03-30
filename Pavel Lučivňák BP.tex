@@ -507,6 +507,19 @@ P(\textbf x | C_k) = P(x_1|C_k) P(x_2|C_k) \cdots P(x_n|C_k).
 
 Because of the independence assumption, learning of the classifier can be performed in short time compared to the learning time required by other classifier types ref:TODO.
 
+\section{Dynamic Bayesian network}
+
+Dynamic Bayesian network is a Bayesian network which accounts for time. At each time point $t$, the values of random variables can be computed based on values of associated random variables in time $t-1$.
+
+Consider figure \ref{fig:dbn} as an example. It can be imagined that velocity of an airplane at time $t$ conditionally depends on velocity at time $t-1$ as well as on wind speed at time $t-1$. Remaining gas at time $t$ conditionally depends on remaining gas at $t-1$ and it is also influenced by altitude and velocity at current time $t$.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=1\textwidth]{dbn}
+ 	\caption{Visualization of a Dynamic Bayesian network with four variables at time $t$.}
+ 	\label{fig:dbn}
+\end{figure}
+
 \section{Dynamic naive Bayesian classifier}
 
 \subsection{Description}

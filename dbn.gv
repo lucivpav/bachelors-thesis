@@ -1,0 +1,50 @@
+digraph G {
+  rankdir=LR
+  edge [color = gray]
+  aold -> aprev
+  vold -> vprev
+  wold -> wprev
+  wold -> vprev
+  gold -> gprev
+  edge [color = black]
+  aprev -> acur
+  aprev -> gprev
+  vprev -> vcur
+  vprev -> gprev
+  wprev -> vcur
+  wprev -> wcur
+  gprev -> gcur
+  acur -> gcur
+  vcur -> gcur
+  edge [color = gray]
+  acur -> anext
+  vcur -> vnext
+  wcur -> wnext
+  wcur -> vnext
+  gcur -> gnext
+
+  aold [ style = invisible ]
+  vold [ style = invisible ]
+  wold [ style = invisible ]
+  gold [ style = invisible ]
+
+  aprev [ label = <altitude<SUB>t-1</SUB>>]
+  vprev [ label = <velocity<SUB>t-1</SUB>>]
+  wprev [ label = <wind speed<SUB>t-1</SUB>>]
+  gprev [ label = <remaining gas<SUB>t-1</SUB>>]
+
+  acur [ label = <altitude<SUB>t</SUB>>]
+  vcur [ label = <velocity<SUB>t</SUB>>]
+  wcur [ label = <wind speed<SUB>t</SUB>>]
+  gcur [ label = <remaining gas<SUB>t</SUB>>]
+
+  anext [ style = invisible ]
+  vnext [ style = invisible ]
+  wnext [ style = invisible ]
+  gnext [ style = invisible ]
+
+  {rank = same; aold; vold; wold; gold;}
+  {rank = same; aprev; vprev; wprev; gprev;}
+  {rank = same; acur; vcur; wcur; gcur;}
+  {rank = same; anext; vnext; wnext; gnext;}
+}
