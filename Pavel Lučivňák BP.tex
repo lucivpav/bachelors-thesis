@@ -381,10 +381,10 @@ l_{\text{cur}} - l_{\text{prev}} < \text{tol}
 Given a sequence of observed states, what is the most likely associated sequence of hidden states? Viterbi algorithm answers this question. Let's define $\alpha_t(i)$ to be the maximum probability of sequence of hidden and observed states up to time point $t$:
 
 \begin{equation} \label{eq:hmm_viterbi_a}
-\alpha_t(i) = max_{q_1,q_2,\dots,q_{t-1}} P(q_1,q_2,\dots,q_{t-1},q_t = S_i,x_1,x_2,\dots,x_t | \theta),
+\alpha_t(i) = max_{q_1,q_2,\dots,q_{t-1}} P(q_1,q_2,\dots,q_{t-1},q_t = S_i,x_1,x_2,\dots,x_t | \lambda),
 \end{equation}
 
-where $\theta$ are parameters of HMM model.
+where $\lambda$ are parameters of HMM model.
 
 \paragraph{Initialization}
 
@@ -588,10 +588,10 @@ Inference algorithm is again Viterbi. It is simply extended to support multiple 
 Let's define $a_t(i)$ to be the maximum probability of sequence of hidden and sets of observed states up to time point $t$:
 
 \begin{equation} \label{eq:dnbc_viterbi_a}
-a_t(i) = max_{y_1,y_2,\dots,y_{t-1}} P(y_1,y_2,\dots,y_{t-1},y_t = S_i,\textbf{x}_t^1,\textbf{x}_t^2,\dots,\textbf{x}_t^M| \theta),
+a_t(i) = max_{y_1,y_2,\dots,y_{t-1}} P(y_1,y_2,\dots,y_{t-1},y_t = S_i,\textbf{x}_t^1,\textbf{x}_t^2,\dots,\textbf{x}_t^M| \lambda),
 \end{equation}
 
-where $\theta$ are parameters of DNBC model.
+where $\lambda$ are parameters of DNBC model.
 
 \paragraph{Initialization}
 
