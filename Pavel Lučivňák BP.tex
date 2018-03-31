@@ -409,8 +409,8 @@ s_t = S_{\argmax_i \alpha_{t}(i)}
 
 \paragraph{Complexity}
 
-At each time point $t$ and hidden state index $j$, the equation \ref{eq:hmm_viterbi_a_rec} loops through every hidden state index $i$. There are $\vert{S}\vert$ hidden states. In addition, the recursion continues for every time point $t$. There are $T$ time points. Thus the overall complexity is
-${\vert{S}\vert}^2 T$.
+At each time point $t$ and hidden state index $j$, the equation \ref{eq:hmm_viterbi_a_rec} loops through every hidden state index $i$. There are $N$ hidden states. In addition, the recursion continues for every time point $t$. There are $T$ time points. Thus the overall complexity is
+$N^2 T$.
 
 \subsection{Example}
 Suppose an extension of an example mentioned in Markov chain chapter. i.e. there are three hidden states of weather: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. Lets introduce a continuous observed random variable describing humidity level. It is easy to imagine that on sunny day, the humidity will be The set of hidden states is assumed to be discrete.
