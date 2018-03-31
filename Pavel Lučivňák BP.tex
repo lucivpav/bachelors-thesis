@@ -598,14 +598,20 @@ where $\theta$ are parameters of DNBC model.
 At time point $t=1$, the probability of being at hidden state $S_i$ is equal to the initial probability of being at that state and probabilities of being at observed state $x_1^j$ given hidden state $S_i$. In another words:
 
 \begin{equation}
-\alpha_1(i) = \pi_i \prod_{j=1}^M b^j_i(x^j_1)
+\alpha_1(i) = \pi_i \prod_{j=1}^M b^j_i(x^j_1).
 \end{equation}
 
 \paragraph{Recursion}
 Taking into account the structure of DNBC, the equation \ref{eq:dnbc_viterbi_a} can be rewritten recursively as
 
 \begin{equation} \label{eq:dnbc_viterbi_a_rec}
-\alpha_t(j) = [\max_i \alpha_{t-1}(i)a_{ij}] \prod_{k=1}^M b_j^k(x^k_t)
+\alpha_t(j) = [\max_i \alpha_{t-1}(i)a_{ij}] \prod_{k=1}^M b_j^k(x^k_t).
+\end{equation}
+
+Hidden state at particular time point $t$ is determined by
+
+\begin{equation}
+s_t = S_{\argmax_i \alpha_{t}(i)}.
 \end{equation}
 
 \paragraph{Complexity}
