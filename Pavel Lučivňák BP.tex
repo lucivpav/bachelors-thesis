@@ -135,10 +135,10 @@ A Markov chain is defined by
 
 Where $a_{ij}, 1 \leq i,j \leq N$ is a probability of transitioning from state $S_i$ into state $S_j$. $\pi_i$ is a probability that the initial state is $S_i$.
 
-Suppose a sequence of states $q_1, q_2, \dots, q_T$, where $T \geq 2$. At time $t$, where $1 \leq t \leq T-1$, there is a probability $P(q_{t+1}=S_j | q_t=S_i)$. This probability is described by $a_{ij}$.
+Suppose a sequence of states $y_1, y_2, \dots, y_T$, where $T \geq 2$. At time $t$, where $1 \leq t \leq T-1$, there is a probability $P(y_{t+1}=S_j | y_t=S_i)$. This probability is described by $a_{ij}$.
 
 \subsection{Markov property}
-Markov chain satisfies a Markov property. This property says that $P(q_{t+1}=S_i|q_1=s_1,q_2=s_2,\dots,q_t=s_t) = P(q_{t+1}=S_{i}|q_t=s_t)$. In another words, being at state $S_i$ at time $t+1$ only conditionally depends on being at state $s_t$ at time $t$. Further history doesn't influence the probability.
+Markov chain satisfies a Markov property. This property says that $P(y_{t+1}=S_i|y_1=s_1,y_2=s_2,\dots,y_t=s_t) = P(y_{t+1}=S_{i}|y_t=s_t)$. In another words, being at state $S_i$ at time $t+1$ only conditionally depends on being at state $s_t$ at time $t$. Further history doesn't influence the probability.
 
 \subsection{Example}
 
@@ -191,19 +191,19 @@ HMM is defined by
 
 \end{itemize}
 
-The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. There are numerous different definitions of HMM, such as [TODO], [TODO] or [TODO]. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | q_t = S_i)$. $b_i(o)$ is also called an emission function.
+The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. There are numerous different definitions of HMM, such as [TODO], [TODO] or [TODO]. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$. $b_i(o)$ is also called an emission function.
 
 
-Imagine a walk through a HMM graph. At time point $t$, there is a hidden state $q_t$ and an observed state $x_t$. Value of the observed state conditionally depends on value of the hidden state. The dependency is described by emission function $b_i(o)$.
+Imagine a walk through a HMM graph. At time point $t$, there is a hidden state $y_t$ and an observed state $x_t$. Value of the observed state conditionally depends on value of the hidden state. The dependency is described by emission function $b_i(o)$.
 
-If $t \neq 1$ and $T > 1$, there is a hidden state $q_i$ that conditionally depends on value of previous hidden state $q_{t-1}$. The dependency is described by transition $a_{ij}$.
+If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on value of previous hidden state $y_{t-1}$. The dependency is described by transition $a_{ij}$.
 
-If $t = 1$, there is a hidden state $q_1$ that conditionally depends on initial transition $\pi_i$.
+If $t = 1$, there is a hidden state $y_1$ that conditionally depends on initial transition $\pi_i$.
 
 \begin{figure}
 	\centering
  	\includegraphics[width=0.7\textwidth]{hmm}
- 	\caption{Visualization of a walk through a Hidden Markov Model. At each time point, there is a hidden state $q_t$ and an observed state $x_t$.}
+ 	\caption{Visualization of a walk through a Hidden Markov Model. At each time point, there is a hidden state $y_t$ and an observed state $x_t$.}
  	\label{fig:hmm}
 \end{figure}
 
@@ -381,7 +381,7 @@ l_{\text{cur}} - l_{\text{prev}} < \text{tol}
 Given a sequence of observed states, what is the most likely associated sequence of hidden states? Viterbi algorithm answers this question. Let's define $\alpha_t(i)$ to be the maximum probability of sequence of hidden and observed states up to time point $t$:
 
 \begin{equation} \label{eq:hmm_viterbi_a}
-\alpha_t(i) = max_{q_1,q_2,\dots,q_{t-1}} P(q_1,q_2,\dots,q_{t-1},q_t = S_i,x_1,x_2,\dots,x_t | \lambda),
+\alpha_t(i) = max_{y_1,y_2,\dots,y_{t-1}} P(y_1,y_2,\dots,y_{t-1},y_t = S_i,x_1,x_2,\dots,x_t | \lambda),
 \end{equation}
 
 where $\lambda$ are parameters of HMM model.
