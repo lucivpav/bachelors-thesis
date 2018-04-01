@@ -112,7 +112,7 @@ w_i \geq 0, 1 \leq i \leq n,
 \begin{figure}
 	\centering
  	\includegraphics[width=0.7\textwidth]{gaussian_mixture}
- 	\caption{Visualization of a mixture with three components with parameters $\mu_1=5, \mu_2=10, \mu_3=15$ and $\sigma_{1,2,3}^2=2^2$. Weights are $w_{1,2,3} = \frac{1}{3}$. Author: Smason79, Wikimedia}
+ 	\caption{Visualization of a mixture with three components with parameters $\mu_1=5, \mu_2=10, \mu_3=15$ and $\sigma_{1,2,3}^2=2^2$. Weights are $w_{1,2,3} = \frac{1}{3}$. Author: Smason79 \cite{gaussian-mixture}.}
  	\label{fig:gaussian_mixture}
 \end{figure}
 
@@ -180,7 +180,7 @@ Hidden Markov Model (HMM) is an extension of Markov chain. The states are now ca
 
 \subsection{Description}
 
-HMM is defined by
+HMM is defined by: (based on paper by Lawrence Rabiner \cite{hmm-lawrence})
 \begin{itemize}
 
 \item set of hidden states $S = \{S_1, S_2, \dots, S_N\}$,
@@ -191,8 +191,7 @@ HMM is defined by
 
 \end{itemize}
 
-The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. There are numerous different definitions of HMM, such as [TODO], [TODO] or [TODO]. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$. $b_i(o)$ is also called an emission function.
-
+The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$. $b_i(o)$ is also called an emission function.
 
 Imagine a walk through a HMM graph. At time point $t$, there is a hidden state $y_t$ and an observed state $x_t$. Value of the observed state conditionally depends on value of the hidden state. The dependency is described by emission function $b_i(o)$.
 
@@ -329,7 +328,7 @@ TODO: not a MLE!
  	\label{fig:gaussian_mixture_est}
 \end{figure}
 
-Given $K$ components, there are $K$ component parameters $\theta_1, \theta_2, \dots, \theta_K$ and $K$ weights $w_1, w_2, \dots, w_K$ to estimate. Here I provide description of Expectation-Maximization algorithm based on TODO. This algorithm provides an estimate of the aforementioned parameters.
+Given $K$ components, there are $K$ component parameters $\theta_1, \theta_2, \dots, \theta_K$ and $K$ weights $w_1, w_2, \dots, w_K$ to estimate. Here I provide description of Expectation-Maximization algorithm based on lecture notes by Padhraic Smyth \cite{gaussian-mixture-em}. This algorithm provides an estimate of the aforementioned parameters.
 
 Let's define a membership weight $w_{jk}$, of data point $x_j$ in component $k$ as
 
@@ -501,7 +500,7 @@ Because the features are assumed to be conditionally independent from each other
 P(\textbf x | C_k) = P(x_1|C_k) P(x_2|C_k) \cdots P(x_n|C_k).
 \end{equation}
 
-Because of the independence assumption, learning of the classifier can be performed in short time compared to the learning time required by other classifier types ref:TODO.
+Because of the independence assumption, learning of the classifier can be performed effectively, as mentioned in artice by K. M. Leung \cite{naive-bayesian-classifier}.
 
 \section{Dynamic Bayesian network}
 
@@ -631,7 +630,7 @@ The observed variables are assumed to be conditionally independent from each oth
 \end{conclusion}
 
 \bibliographystyle{csn690}
-\bibliography{mybibliographyfile}
+\bibliography{bibliography}
 
 \appendix
 
