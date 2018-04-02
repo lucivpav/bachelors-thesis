@@ -128,7 +128,7 @@ Formally $\argmax_{\theta \in \Theta} \prod_{j=1}^{M} L(x_j, \theta)$, where:
 \begin{itemize}
 
 \item $M$ is number of data points,
-\item $x_j$ is a j-th data point,
+\item $X = \{x_1, x_2, \dots, x_M\}$ is a learning set of data points,
 \item \emph{L} is a likelihood function (defined further),
 \item $\theta$ describes model parameters,
 \item $\Theta$ is a set of all model parameters.
@@ -137,7 +137,7 @@ Formally $\argmax_{\theta \in \Theta} \prod_{j=1}^{M} L(x_j, \theta)$, where:
 
 \section{Discrete distribution}
 
-Here I present a straightforward way of defining the $L$ likelihood function in case of discrete random variables. $L(x,\theta) = x_{cnt} / M$, where $x_{cnt}$ is the number of times $x$ occurs in learning data. The number of data points is $M$. Since the likelihood function does not depend on parameter $\theta$, there is no expression to optimize.
+Here I present a straightforward way of defining the $L$ likelihood function in case of discrete random variables. $L(x,\theta) = x_{cnt} / M$, where $x_{cnt}$ is the number of times $x \in X$ occurs in learning data. The number of data points is $M$. Since the likelihood function does not depend on parameter $\theta$, there is no expression to optimize.
 
 There is a reason I did not choose any standard discrete probability distribution to define $L$. The random variable does not have to be \textbf Z, nor \textbf N. In fact it can be any abstract object, such as an animal. A type, where comparison between two objects doesn't make sense. Therefore, it wouldn't make sense to assign non zero probability to values that are not specified in learning phase.
 
@@ -176,10 +176,10 @@ Normal distribution is defined by $\theta = \{\mu, \sigma^2\}$. The goal is to f
 In case of Gaussian distribution, the likelihood function $L$ is defined by
 
 \begin{equation}
-L(x, \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}}.
+L(x, \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}},
 \end{equation}
 
-Taking derivative of \ref{eq:gaussian_mle_prod} with respect to $\mu$ equal to 0 yields
+where $x \in X$. Taking derivative of \ref{eq:gaussian_mle_prod} with respect to $\mu$ equal to 0 yields
 
 \begin{equation}
 \sum_{j=1}^{M}{x_j - M \mu} = 0.
@@ -194,7 +194,7 @@ Maximum likelihood estimate of $\mu$ is therefore
 Derivative of \ref{eq:gaussian_mle_prod} with respect to $\sigma^2$ equal to zero results in MLE of $\sigma^2$ to be
 
 \begin{equation}
-\sigma^2_{\text{est}} = \frac{1}{M} \sum_{j=1}^{M} {(X_j-\overline X_M)^2}.
+\sigma^2_{\text{est}} = \frac{1}{M} \sum_{j=1}^{M} {(x_j-\overline X_M)^2}.
 \end{equation}
 
 Figure \ref{fig:normal_mle} shows an example of MLE on normally distributed random variable.
