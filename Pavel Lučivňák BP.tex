@@ -330,7 +330,7 @@ HMM is defined by: (based on paper by L. Rabiner \cite{hmm-lawrence})
 
 The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$. This probability function is also called an emission function.
 
-Imagine a walk through a HMM graph. At time point $t$, there is a hidden state $y_t$ and an observed symbol $x_t$. Value of the observed symbol conditionally depends on value of the hidden state. The dependency is described by emission function $b_i(o)$.
+Imagine a walk through a HMM graph (see figure \ref{fig:hmm_graph} for an example graph). At time point $t$, there is a hidden state $y_t$ and an observed symbol $x_t$. Value of the observed symbol conditionally depends on value of the hidden state. The dependency is described by emission function $b_i(o)$.
 
 If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on value of previous hidden state $y_{t-1}$. The dependency is described by transition $a_{ij}$. If $t = 1$, there is a hidden state $y_1$ that conditionally depends on initial transition $\pi_i$.
 
@@ -410,6 +410,14 @@ At each time point $t$ and hidden state index $j$, the equation \ref{eq:hmm_vite
 $N^2 T$.
 
 \subsection{Example}
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{hmm-graph}
+ 	\caption{Visualization of a Hidden Markov Model with three states and a continuous observed variable.}
+ 	\label{fig:hmm_graph}
+\end{figure}
+
 Suppose an extension of an example mentioned in Markov chain chapter. i.e. there are three hidden states of weather: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. Lets introduce a continuous observed random variable describing humidity level. It is easy to imagine that on sunny day, the humidity will be typically lower than on a rainy day. This observable variable can help in predicting future weather.
 
 \subsection{Limitations}
