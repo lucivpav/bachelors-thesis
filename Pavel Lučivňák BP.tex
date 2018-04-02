@@ -135,7 +135,7 @@ A Markov chain is defined by
 
 Where $a_{ij}, 1 \leq i,j \leq N$ is a probability of transitioning from state $S_i$ into state $S_j$. $\pi_i$ is a probability that the initial state is $S_i$.
 
-Suppose a sequence of states $y_1, y_2, \dots, y_T$, where $T \geq 2$. At time $t$, where $1 \leq t \leq T-1$, there is a probability $P(y_{t+1}=S_j | y_t=S_i)$. This probability is described by $a_{ij}$.
+Suppose a sequence of states $y_1, y_2, \dots, y_T$, where $T \geq 2$. At time $t$, where $1 \leq t \leq T-1$, the transition probability $a_{ij}$ is defined as $P(y_{t+1}=S_j | y_t=S_i)$.
 
 \subsection{Markov property}
 Markov chain satisfies a Markov property. This property says that $P(y_{t+1}=S_i|y_1=s_1,y_2=s_2,\dots,y_t=s_t) = P(y_{t+1}=S_{i}|y_t=s_t)$. In another words, being at state $S_i$ at time $t+1$ only conditionally depends on being at state $s_t$ at time $t$. Further history doesn't influence the probability.
