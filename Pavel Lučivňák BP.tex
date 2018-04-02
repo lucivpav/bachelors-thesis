@@ -547,9 +547,7 @@ Imagine a walk through DNBC graph. At time point $t$, there is a hidden state $y
 
 An important property of DNBC is that the observed variables are assumed to be independent from each other. Therefore, DNBC does not define any conditional dependency function between two observed variables.
 
-If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on value of previous hidden state $y_{t-1}$. The dependency is described by transition $a_{ij}$.
-
-If $t = 1$, there is a hidden state $y_1$ that conditionally depends on initial transition $\pi_i$.
+If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on value of previous hidden state $y_{t-1}$. The dependency is described by transition $a_{ij}$. If $t = 1$, there is a hidden state $y_1$ that conditionally depends on initial transition $\pi_i$.
 
 \subsection{Operations}
 
