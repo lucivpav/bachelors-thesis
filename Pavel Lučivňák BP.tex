@@ -410,8 +410,7 @@ At each time point $t$ and hidden state index $j$, the equation \ref{eq:hmm_vite
 $N^2 T$.
 
 \subsection{Example}
-Suppose an extension of an example mentioned in Markov chain chapter. i.e. there are three hidden states of weather: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. Lets introduce a continuous observed random variable describing humidity level. It is easy to imagine that on sunny day, the humidity will be The set of hidden states is assumed to be discrete.
-typically lower than on a rainy day. This observable variable can help in predicting future weather.
+Suppose an extension of an example mentioned in Markov chain chapter. i.e. there are three hidden states of weather: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. Lets introduce a continuous observed random variable describing humidity level. It is easy to imagine that on sunny day, the humidity will be typically lower than on a rainy day. This observable variable can help in predicting future weather.
 
 \subsection{Limitations}
 There is only one observed variable, which may not be sufficient for successful prediction in real-life applications. One could increase the dimensionality of the obsereved variable. That would, however, lead to a problem called curse of dimensionality. As we would increase the dimensionality of observed variable, the learning time would increase greatly up to the point where it would no longer be tractable. Dynamic naive Bayesian classifier addresses this issue.
