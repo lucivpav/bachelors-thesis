@@ -16,6 +16,8 @@
 % \usepackage{amssymb} %additional math symbols
 
 \usepackage{dirtree} %directory tree visualisation
+\usepackage{listings} %source code visualisation
+\lstset{breaklines}
 
 % % list of acronyms
 % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
@@ -692,6 +694,23 @@ Figure \ref{fig:module-dependencies} provides overview of the project structure 
 \end{figure}
 
 \section{Usage}
+
+\textit{DynamicNaiveBayesianClassifier} object in \textit{core} module serves as a factory for already learned class \textit{DynamicNaiveBayesianClassifier}.
+
+\begin{lstlisting}[language=Scala]
+object DynamicNaiveBayesianClassifier {
+  def mle(sc: SparkContext,
+          sequences: Iterable[Seq[State]],
+          continuousVariableHints: Option[List[Int]] = Option.empty)
+          : DynamicNaiveBayesianClassifier = {
+          // ...
+          }
+}
+\end{lstlisting}
+
+The function \textit{mle} returns a learned (using MLE) model. \textit{sequences} are sequences of \textit{States} used for learning. Optional argument \textit{continuousVariableHints} can be provided to set the number of components in gaussian mixtures. The implementation does not try to estimate the number. If the parameter is not provided, the continuous variables are expected to have normal distribution.
+
+The model parameters (\textit{Edges}) are learning in every sequence of states. After all the sequences have been processed, learning is finalized by calling \textit{learnFinalize} on every edge. These functions are executed in parallel since they are not data-dependent with each other.
 
 \chapter{Návrh}
 
