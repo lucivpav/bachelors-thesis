@@ -1,0 +1,6 @@
+digraph G {
+  preprocessing -> core, "test-utils"
+  "core-test" -> core, "test-utils"
+  "test-utils" -> core
+  performance -> "test-utils"
+}

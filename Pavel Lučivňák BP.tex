@@ -656,6 +656,43 @@ Consider a problem of weather prediction. Let's define a set of hidden states to
 
 The observed variables are assumed to be conditionally independent from each other. While this assumption enables the use of algorithms with relatively low time complexity, it also limits the ability to describe more complicated relations among random variables. For example, the observed variables may be correlated in reality.
 
+\chapter{Implementation}
+
+I have implemented a Dynamic naive Bayesian Classifier in Scala programming language that runs on top of Apache Spark. I named this software \textit{dnbc-scala}.
+
+\section{Scala language}
+
+Scala is a programming language that combines functional and object-oriented programming. Scala code compiles into Java Virtual Machine (JVM) bytecode. This enables one to incorporate existing Java libraries into a Scala project.
+
+\section{Apache Spark}
+
+Apache Spark is an engine for cluster-computing. It provides Application Programming Interface (API) that developers can use to execute computations on multiple nodes - processors or machines in a cluster. Spark is also fault-tolerant, meaning that if a computation fails at given node, another node will take over.
+
+\section{Project structure}
+
+The project is divided into 5 modules:
+
+\begin{itemize}
+
+\item \textit{core} - main module containing DNBC interface, helper class for loading data set into required format and a class for measuring performance of DNBC on a data set,
+\item \textit{core-test} - contains tests of $core$ module,
+\item \textit{performance} - provides command line interface for generating a parametric data set and measuring DNBC performance on it,
+\item \textit{preprocessing} - transforms a predefined data set into data sets with different parameters,
+\item \textit{test-utils} - provides commonly used functions in tests or in performance measurement.
+
+\end{itemize}
+
+Figure \ref{fig:module-dependencies} provides overview of the project structure and module dependencies.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{module-dependencies}
+ 	\caption{Dependencies among modules in \textit{dnbc-scala} project.}
+ 	\label{fig:module-dependencies}
+\end{figure}
+
+\section{Usage}
+
 \chapter{Návrh}
 
 \chapter{Realizace}
