@@ -805,6 +805,16 @@ trait RandomEdge[T] {
 }
 \end{lstlisting}
 
+\section{Underflow}
+
+Since the Viterbi algorithm is computing products of probabilities, the resulting value gets small in few iterations. To avoid underflow, one can compute a log-probability instead, using the following trick:
+
+\begin{equation}
+\log(abc) = \log(a)+\log(b)+\log(c).
+\end{equation}
+
+Now instead of multiplying tiny numbers together, one can use addition.
+
 \chapter{Návrh}
 
 \chapter{Realizace}
