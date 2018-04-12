@@ -817,6 +817,41 @@ Since the Viterbi algorithm is computing products of probabilities, the resultin
 
 Now instead of multiplying tiny numbers together, one can use addition.
 
+\section{Data set generation}
+
+The \textit{test-utils} module contains a function \textit{generatePerformanceDataSet}. This generates a random data set, given parameters, that can be used for measuring learning and testing time. The table \ref{tab:generation-parameters} contains a list of supported parameters.
+
+\begin{table}
+\centering
+\begin{tabular}{|c|}
+	\hline
+	parameter \\
+	\hline
+	length of sequences \\
+	number of training sequences \\
+	number of testing sequences \\
+	number of hidden states \\
+	number of discrete emissions \\
+	number of continuous emissions \\
+	max number of components per mixture \\
+	transitions per hidden state \\
+	\hline
+\end{tabular}
+\caption{Data set generation parameters}
+\label{tab:generation-parameters}
+\end{table}
+
+The initial edge probabilities are generated from a normal distribution and then normalized. The transition destinations are chosen randomly from a uniform distribution. The probabilities of transitions are then set the same way as in case of initial edge. Same approach is used for discrete emissions.
+
+For continuous emissions, the components of GMM are chosen randomly in uniform fashion in range of these parameters:
+
+\begin{equation}
+\mu \in [-10,10],
+\sigma^2 \in [1,4].
+\end{equation}
+
+The weights in a \textit{RandomContinuousEdge} are all equal.
+
 \chapter{Experiments}
 
 \section{Unit tests}
