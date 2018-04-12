@@ -819,6 +819,39 @@ Now instead of multiplying tiny numbers together, one can use addition.
 
 \chapter{Experiments}
 
+\section{Unit tests}
+
+I am using a Toy Robot data set \cite{robot-maze} as a base data set for unit tests. Imagine a robot wandering through a maze. There are 12 hidden states. Every hidden state is a 2D coordinate. Every hidden state has an associated color. The color is a discrete observed variable consisting of 4 states: red, green, blue and yellow. The initial state is chosen randomly. The data set contains of 200 training sequences and 200 test sequences. Every sequence consists of 200 time points. 10\% of the data set observed states at time points are chosen at random. This depicts robot's occasional failure to detect correct color.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.4\textwidth]{robot_maze}
+ 	\caption{Visualization of a Toy Robot data set \cite{robot-maze}.}
+ 	\label{fig:robot_maze}
+\end{figure}
+
+\paragraph{Measurement}
+For every data set in unit tests, an average success rate (ASR) is measured. This average is the average percentage of hidden states inferred correctly in the testing phase.
+
+\paragraph{Discrete variable}
+ASR on the Toy Robot data set is 65\%.
+
+\paragraph{Continuous variable}
+The Toy Robot data set is transformed to have a single continuous observed variable instead. Every color (discrete random variable) is replaced by temperature. The idea is that the 4 colors have different temperature distributions if sun is shedding light on the maze. ASR of this data set is 42\%.
+
+\paragraph{Discrete and continuous variable}
+A discrete observed variable is added to the continuous variable data set. This variable describes the quadrant of given 2D coordinate. It is assumed that these two variables are independent. ASR of this data set is 76\%.
+
+\paragraph{Gaussian mixture}
+A data set with single continuous observed variable is generated. Hidden states can take on two values: true and false. If the hidden state is true, observed state is generated from a Gaussian distribution. If the hidden state is false, observed state is generated from a Gaussian mixture distribution. Point of this test is to check that providing a variable hint describing the number of mixture components improves the ASR. ASR with correctly set variable hint is 3\% higher compared to a case where no hint is set.
+
+\paragraph{Scoring}
+A score is computed for a sequence of observed states that comes from a data set a DNBC was trained on. Another score is computed for a sequence of observed states that was generated randomly. Since the score is a log-probability, the values are negative. The following holds:
+
+\begin{lstlisting}[language=Scala]
+assert ( scoreReal*1.5 > scoreRandom ).
+\end{lstlisting}
+
 \chapter{Návrh}
 
 \chapter{Realizace}
