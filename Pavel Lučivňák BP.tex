@@ -904,14 +904,13 @@ In this section, I focus on learning and testing time given a generated parametr
 \label{tab:machine-specification}
 \end{table}
 
-\paragraph{Scalability}
-
-The table \ref{tab:parallel-parameters} describes parameters used for data sets generation. Goal of this measurement is to see how well the software scales as we increase number of workers. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data.
+The base parameters used for data set generations and performance measurement are described in table \ref{tab:base-parameters}.
 
 \begin{table}
 \centering
 \begin{tabular}{|c|c|}
 	\hline
+	workers & 2 \\
 	length of sequences & 200 \\
 	number of training sequences & 1000 \\
 	number of testing sequences & 200 \\
@@ -922,9 +921,13 @@ The table \ref{tab:parallel-parameters} describes parameters used for data sets 
 	transitions per hidden state & 5 \\
 	\hline
 \end{tabular}
-\caption{Data set generation parameters for scalability measurement.}
-\label{tab:parallel-parameters}
+\caption{Base data set generation and evaluation parameters for performance measurement.}
+\label{tab:base-parameters}
 \end{table}
+
+\paragraph{Scalability}
+
+Goal of this measurement is to see how well the software scales as we increase number of workers. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data.
 
 \begin{figure}
 	\centering
