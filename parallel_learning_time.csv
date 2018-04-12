@@ -1,0 +1,8 @@
+# values: learning time
+# columns: nworkers: 1 2 4 8 15
+36 25 23 20 17
+37 29 22 18 17
+30 24 26 18 18
+31 31 21 19 17
+# values: continuous emissions learning time
+# columns: nworkers: 1 2 4 8 15

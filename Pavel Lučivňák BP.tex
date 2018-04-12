@@ -831,8 +831,8 @@ The \textit{test-utils} module contains a function \textit{generatePerformanceDa
 	number of training sequences \\
 	number of testing sequences \\
 	number of hidden states \\
-	number of discrete emissions \\
-	number of continuous emissions \\
+	number of discrete observed variables \\
+	number of continuous observed variables \\
 	max number of components per mixture \\
 	transitions per hidden state \\
 	\hline
@@ -886,6 +886,63 @@ A score is computed for a sequence of observed states that comes from a data set
 \begin{lstlisting}[language=Scala]
 assert ( scoreReal*1.5 > scoreRandom ).
 \end{lstlisting}
+
+\section{Performance}
+
+In this section, I focus on learning and testing time given a generated parametric data set. The measurements were made on a machine specified in table \ref{tab:machine-specification}. Every job was assigned 15 GB RAM and 10 GB disk space.
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|}
+	\hline
+	CPU & 2x 8-core Intel Xeon E5-2650 v2 2.6 GHz \\
+	RAM & 96 GB \\
+	disk & 2x500 GB HDD WD Velociraptor 10k SATA \\
+	\hline
+\end{tabular}
+\caption{Machine specification \cite{machine-specification}}
+\label{tab:machine-specification}
+\end{table}
+
+\paragraph{Scalability}
+
+The table \ref{tab:parallel-parameters} describes parameters used for data sets generation. Goal of this measurement is to see how well the software scales as we increase number of workers. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data.
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|}
+	\hline
+	length of sequences & 200 \\
+	number of training sequences & 1000 \\
+	number of testing sequences & 200 \\
+	number of hidden states & 10 \\
+	number of discrete observed variables & 30 \\
+	number of continuous observed variables & 30 \\
+	max number of components per mixture & 3 \\
+	transitions per hidden state & 5 \\
+	\hline
+\end{tabular}
+\caption{Data set generation parameters for scalability measurement.}
+\label{tab:parallel-parameters}
+\end{table}
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{parallel_learning_time}
+ 	\caption{Learning time per number of workers.}
+ 	\label{fig:parallel_learning_time}
+\end{figure}
+
+As it can be seen, the software does not scale particularly well. In fact, the majority of time is spent reading the data set data. This is not a parallel operation. Reading data is the bottleneck.
+
+To focus on scalability of learning itself, figure \ref{fig:parallel_continuous_emissions_learning_time} shows learning time of all continuous emissions, without the data loading. As it can be seen, this segment scales relatively well.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{parallel_continuous_emissions_learning_time}
+ 	\caption{Continuous emissions learning time per number of workers.}
+ 	\label{fig:parallel_continuous_emissions_learning_time}
+\end{figure}
 
 \begin{conclusion}
 	%sem napište závěr Vaší práce
