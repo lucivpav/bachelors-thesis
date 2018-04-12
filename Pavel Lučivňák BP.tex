@@ -712,6 +712,43 @@ The function \textit{mle} returns a learned (using MLE) model. \textit{sequences
 
 The model parameters (\textit{Edges}) are learning in every sequence of states. After all the sequences have been processed, learning is finalized by calling \textit{learnFinalize} on every edge. These functions are executed in parallel since they are not data-dependent with each other.
 
+\paragraph{Edge}
+
+An edge represents a particular random variable, parameters of which are to be learned.
+
+\begin{lstlisting}[language=Scala]
+trait Edge[T] {
+  def learn(occurrence: T): Unit
+  def learnFinalize(): LearnedEdge[T]
+}
+\end{lstlisting}
+
+The \textit{learn} function notifies an edge that \textit{occurence} occured. User calls \textit{learnFinalize} function to estimate the variable parameters based on previous occurences.
+
+There are two kinds of edges: \textit{DiscreteEdge} and \textit{ContinuousEdge}. As expected, \textit{DiscreteEdge} represents a discrete random variable, whereas \textit{ContinuousEdge} represents a continuous random variable.
+
+To estimate the parameters of continuous random variables using MLE, I am using jMEF Java library. Previously I used Spark's MLlib library for estimating parameters of a Gaussian Mixture Model (GMM). The problem with this is approach was that it can only estimate the parameters by making a computation across multiple nodes in a cluster. This is not a desired behavior since there are many estimations of small data that should run in parallel instead. Therefore, I ended up using jMEF library which estimates the parameters in sequential fashion.
+
+\paragraph{LearnedEdge}
+
+A \textit{LearnedEdge} represents a random variable which parameters have been already estimated. The \textit{probability} function returns a probability that a state occurs.
+
+\begin{lstlisting}[language=Scala]
+trait LearnedEdge[T] {
+  def probability(state: T): Double
+}
+\end{lstlisting}
+
+\paragraph{RandomEdge}
+
+A \textit{RandomEdge} generates random value given random variable parameters. This is useful for performance measurement, where data sets are randomly generated.
+
+\begin{lstlisting}[language=Scala]
+trait RandomEdge[T] {
+  def next(): T
+}
+\end{lstlisting}
+
 \chapter{Návrh}
 
 \chapter{Realizace}
