@@ -53,7 +53,23 @@
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-	%sem napište úvod Vaší práce
+Hidden Markov Model (HMM) is a probability model that can be used for example for speech recognition, handwriting recognition or weather prediction. The model describes a hidden random variable and an observed random variable. In case of speech recognition, the hidden variable would be a actual letter from alphabet a person said. The observed variable could then be tone pitch. To estimate current letter of a word that user said, the model takes into account previously said letter and current pitch level.
+
+The model is first trained using labeled data - containing both hidden states and observed states. Then inference (estimation of hidden states) can be used on data with only known observed states.
+
+Limitation of HMM is that it only supports one observed random variable. In case of speech recognition, there are more variables than just tone pitch that are relevant to letter estimation. One could increase dimensionality of the observed variable, but this would lead to a phenomenon called curse of dimensionality that would result in model training to be intractable.
+
+Dynamic naive Bayesian classifier (DNBC) addresses this issue by supporting multiple observed variables. To avoid curse of dimensionality, the observed variables are assumed to be statistically independent with each other. Due to the fact that the observed variables are statistically independent, the model can be easily trained in parallel fashion.
+
+There are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian Networks, which is a super set of DNBC, it does not support computation on top of Apache Spark. Since Bayesian Networks are above the scope of this thesis, I have decided to implement DNBC by myself.
+
+In the inital chapters, I briefly cover mathematical background that this thesis is based on - namely Gaussian distribution and Gaussian mixture distribution. Then I discuss parameter estimation of probabilistic models. This will be useful for training of HMM and DNBC later on.
+
+In the Analysis chapter, I cover the theory and foundations of DNBC. Starting from Markov chain, extending it into a Hidden Markov Model. Then discussing what Bayesian networks are. I then cover Naive Bayesian networks and Dynamic Bayesian networks. This gives enough foundation for defining Dynamic naive Bayesian classifier.
+
+DNBC is analyzed in terms of three basic operations that can be performed on it - learning, inference and scoring. I also provide an example problem and discuss limitations of DNBC.
+
+Following chapter describes implementation details and design decisions I made when creating a DNBC library. Finally I show experiment results on randomly generated data sets in terms of learning and testing time. Scalability is measured as well. I also show how well DNBC performs in terms of inference accuracy on realistic data sets.
 \end{introduction}
 
 \chapter{Cíl práce}
