@@ -43,8 +43,8 @@
 \abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.}
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
-\keywordsCS{Nahraďte seznamem klíčových slov v češtině oddělených čárkou.}
-\keywordsEN{Nahraďte seznamem klíčových slov v angličtině oddělených čárkou.}
+\keywordsCS{dynamický naivní Bayesovský klasifikátor, skrytý Markovův model, metoda maximální věrohodnosti, Scala, Apache Spark}
+\keywordsEN{dynamic naive Bayesian classifier, Hidden Markov Model, maximum likelihood estimation, Scala, Apache Spark}
 \website{https://github.com/lucivpav/dnbc-scala} %volitelná URL práce, objeví se v tiráži - úplně odstraňte, nemáte-li URL práce
 
 \begin{document}
@@ -61,11 +61,11 @@ Limitation of HMM is that it only supports one observed random variable. In case
 
 Dynamic naive Bayesian classifier (DNBC) addresses this issue by supporting multiple observed variables. To avoid curse of dimensionality, the observed variables are assumed to be statistically independent with each other. Due to the fact that the observed variables are statistically independent, the model can be easily trained in parallel fashion.
 
-There are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian Networks, which is a super set of DNBC, it does not support computation on top of Apache Spark. Since Bayesian Networks are above the scope of this thesis, I have decided to implement DNBC by myself.
+There are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian Networks, which is a super set of DNBC, it does not support computation on top of Apache Spark. Since Bayesian networks are above the scope of this thesis, I have decided to implement DNBC by myself.
 
 In the inital chapters, I briefly cover mathematical background that this thesis is based on - namely Gaussian distribution and Gaussian mixture distribution. Then I discuss parameter estimation of probabilistic models. This will be useful for training of HMM and DNBC later on.
 
-In the Analysis chapter, I cover the theory and foundations of DNBC. Starting from Markov chain, extending it into a Hidden Markov Model. Then discussing what Bayesian networks are. I then cover Naive Bayesian networks and Dynamic Bayesian networks. This gives enough foundation for defining Dynamic naive Bayesian classifier.
+In the Analysis chapter, I cover the theory and foundations of DNBC. Starting from Markov chain, extending it into a Hidden Markov Model. Then discussing what Bayesian networks are. I then cover naive Bayesian classifier and dynamic Bayesian networks. This gives enough foundation for defining dynamic naive Bayesian classifier.
 
 DNBC is analyzed in terms of three basic operations that can be performed on it - learning, inference and scoring. I also provide an example problem and discuss limitations of DNBC.
 
