@@ -72,7 +72,10 @@ DNBC is analyzed in terms of three basic operations that can be performed on it 
 Following chapter describes implementation details and design decisions I made when creating a DNBC library. Finally I show experiment results on randomly generated data sets in terms of learning and testing time. Scalability is measured as well. I also show how well DNBC performs in terms of inference accuracy on realistic data sets.
 \end{introduction}
 
-\chapter{Cíl práce}
+\chapter{Goal of this thesis}
+There are two goals of this thesis. First, I provide the reader with definition of dynamic naive Bayesian classifier (DNBC) and algorithms used for learning, inference and scoring. To better understand DNBC, it is desired to mention the models this classifier is based on. It is also necessary to see whether use can be made of existing software solutions that implement DNBC in Scala programming language.
+
+Second goal is to create a parallel implementation of DNBC that can be easily executed on a computational cluster. For that reason, the algorithm will be implemented in the Scala language on top of Apache Spark. Evaluation of the implementation is necessary to ensure correctness and measure scalability potential.
 
 \chapter{Mathematical background}
 
