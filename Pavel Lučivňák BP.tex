@@ -44,7 +44,7 @@
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{dynamický naivní Bayesovský klasifikátor, skrytý Markovův model, metoda maximální věrohodnosti, Scala, Apache Spark}
-\keywordsEN{dynamic naive Bayesian classifier, Hidden Markov Model, maximum likelihood estimation, Scala, Apache Spark}
+\keywordsEN{dynamic naive Bayesian classifier, hidden Markov model, maximum likelihood estimation, Scala, Apache Spark}
 \website{https://github.com/lucivpav/dnbc-scala} %volitelná URL práce, objeví se v tiráži - úplně odstraňte, nemáte-li URL práce
 
 \begin{document}
@@ -53,7 +53,7 @@
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-Hidden Markov Model (HMM) is a probability model that can be used for example for speech recognition, handwriting recognition or weather prediction. The model describes a hidden random variable and an observed random variable. In case of speech recognition, the hidden variable would be a actual letter from alphabet a person said. The observed variable could then be tone pitch. To estimate current letter of a word that user said, the model takes into account previously said letter and current pitch level.
+Hidden Markov model (HMM) is a probability model that can be used for example for speech recognition, handwriting recognition or weather prediction. The model describes a hidden random variable and an observed random variable. In case of speech recognition, the hidden variable would be a actual letter from alphabet a person said. The observed variable could then be tone pitch. To estimate current letter of a word that user said, the model takes into account previously said letter and current pitch level.
 
 The model is first trained using labeled data - containing both hidden states and observed states. Then inference (estimation of hidden states) can be used on data with only known observed states.
 
@@ -65,7 +65,7 @@ There are no existing DNBC libraries written in Scala language. Although there e
 
 In the inital chapters, I briefly cover mathematical background that this thesis is based on - namely Gaussian distribution and Gaussian mixture distribution. Then I discuss parameter estimation of probabilistic models. This will be useful for training of HMM and DNBC later on.
 
-In the Analysis chapter, I cover the theory and foundations of DNBC. Starting from Markov chain, extending it into a Hidden Markov Model. Then discussing what Bayesian networks are. I then cover naive Bayesian classifier and dynamic Bayesian networks. This gives enough foundation for defining dynamic naive Bayesian classifier.
+In the Analysis chapter, I cover the theory and foundations of DNBC. Starting from Markov chain, extending it into a hidden Markov model. Then discussing what Bayesian networks are. I then cover naive Bayesian classifier and dynamic Bayesian networks. This gives enough foundation for defining dynamic naive Bayesian classifier.
 
 DNBC is analyzed in terms of three basic operations that can be performed on it - learning, inference and scoring. I also provide an example problem and discuss limitations of DNBC.
 
@@ -110,7 +110,7 @@ The distribution is defined by two parameters - mean $\mu$ and variance $\sigma^
  	\label{fig:gaussian}
 \end{figure}
 
-Normal distribution is one of the most widespread distribution found in nature \cite{gaussian-distribution-widespread}. Imagine $n$ independent identically distributed (i.i.d.) random variables. For large $n > 30$, both sum and average of the variables converge to normal distribution. This phenomenon occurs because of the Central Limit Theorem. See book \textit{Introduction to Probability} \cite{clt-proof} for a proof.
+Normal distribution is one of the most widespread distribution found in nature \cite{gaussian-distribution-widespread}. Imagine $n$ independent, identically distributed (i.i.d.) random variables. For large $n > 30$, both sum and average of the variables converge to normal distribution. This phenomenon occurs because of the Central Limit Theorem. See book \textit{Introduction to Probability} \cite{clt-proof} for a proof.
 
 \section{Gaussian mixture distribution}
 
@@ -229,7 +229,7 @@ Figure \ref{fig:normal_mle} shows an example of MLE on normally distributed rand
  	\label{fig:gaussian_mixture_est}
 \end{figure}
 
-Given $K$ components, there are $K$ component parameters $\theta_1, \theta_2, \dots, \theta_K$ and $K$ weights $w_1, w_2, \dots, w_K$ to estimate. Here I provide description of Expectation-Maximization algorithm based on lecture notes by Padhraic Smyth \cite{gaussian-mixture-em}. This algorithm provides an estimate of the aforementioned parameters.
+Given $K$ components, there are $K$ component parameters $\theta_1, \theta_2, \dots, \theta_K$ and $K$ weights $w_1, w_2, \dots, w_K$ to estimate. Here I provide description of expectation-maximization algorithm based on lecture notes by Padhraic Smyth \cite{gaussian-mixture-em}. This algorithm provides an estimate of the aforementioned parameters.
 
 Let's define a membership weight $w_{jk}$, of data point $x_j$ in component $k$ as
 
@@ -328,13 +328,13 @@ The most likely weather on first day of measurement is cloudy.
 
 \subsection{Limitations}
 
-The previous example only takes into account weather at time $t$ to predict weather at time $t+1$. In reality, there are multiple factors that influence what the weather will be like. According to the example, if a weather is sunny now, it is unlikely it will start raining. If we, however, take into account humidity, we can improve the prediction. If we know that humidity is high, even though it was sunny, we can predict it started raining. Hidden Markov Model addresses this issue.
+The previous example only takes into account weather at time $t$ to predict weather at time $t+1$. In reality, there are multiple factors that influence what the weather will be like. According to the example, if a weather is sunny now, it is unlikely it will start raining. If we, however, take into account humidity, we can improve the prediction. If we know that humidity is high, even though it was sunny, we can predict it started raining. hidden Markov model addresses this issue.
 
-\section{Hidden Markov Model}
+\section{Hidden Markov model}
 
 \subsection{Introduction}
 
-Hidden Markov Model (HMM) is an extension of Markov chain. The states are now called hidden states and every hidden state has an associated observed state.
+Hidden Markov model (HMM) is an extension of Markov chain. The states are now called hidden states and every hidden state has an associated observed state.
 
 \subsection{Description}
 
@@ -358,7 +358,7 @@ If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depe
 \begin{figure}
 	\centering
  	\includegraphics[width=0.7\textwidth]{hmm}
- 	\caption{Visualization of a walk through a Hidden Markov Model. At each time point, there is a hidden state $y_t$ and an observed symbol $x_t$.}
+ 	\caption{Visualization of a walk through a hidden Markov model. At each time point, there is a hidden state $y_t$ and an observed symbol $x_t$.}
  	\label{fig:hmm}
 \end{figure}
 
@@ -455,7 +455,7 @@ The score is then
 \begin{figure}
 	\centering
  	\includegraphics[width=0.7\textwidth]{hmm-graph}
- 	\caption{Visualization of a Hidden Markov Model with three states and a continuous observed variable.}
+ 	\caption{Visualization of a hidden Markov model with three states and a continuous observed variable.}
  	\label{fig:hmm_graph}
 \end{figure}
 
@@ -567,7 +567,7 @@ Consider figure \ref{fig:dbn} as an example. It can be imagined that velocity of
 
 \subsection{Introduction}
 
-Dynamic naive Bayesian classifier (DNBC) is an extension of Hidden Markov Model (HMM). The difference is that there may be a number of observed variables. In contrast, HMM is defined for only one observed variable. DNBC is dynamic, because it classifies sequences with variables at every time $t$. It is also naive, because the output variables are assumed to be conditionally independent from each other. Figure \ref{fig:dnbc} demonstrates a walk through a model with 2 observed variables. 
+Dynamic naive Bayesian classifier (DNBC) is an extension of hidden Markov model (HMM). The difference is that there may be a number of observed variables. In contrast, HMM is defined for only one observed variable. DNBC is dynamic, because it classifies sequences with variables at every time $t$. It is also naive, because the output variables are assumed to be conditionally independent from each other. Figure \ref{fig:dnbc} demonstrates a walk through a model with 2 observed variables. 
 
 \subsection{Description}
 
@@ -687,11 +687,11 @@ I have implemented a dynamic naive Bayesian classifier in Scala programming lang
 
 \section{Scala language}
 
-Scala is a programming language that combines functional and object-oriented programming. Scala code compiles into Java Virtual Machine (JVM) bytecode. This enables one to incorporate existing Java libraries into a Scala project.
+Scala is a programming language that combines functional and object-oriented programming. Scala code compiles into Java virtual machine (JVM) bytecode. This enables one to incorporate existing Java libraries into a Scala project.
 
 \section{Apache Spark}
 
-Apache Spark is an engine for cluster-computing. It provides Application Programming Interface (API) that developers can use to execute computations on multiple nodes - processors or machines in a cluster. Spark is also fault-tolerant, meaning that if a computation fails at given node, another node will take over.
+Apache Spark is an engine for cluster-computing. It provides application programming interface (API) that developers can use to execute computations on multiple nodes - processors or machines in a cluster. Spark is also fault-tolerant, meaning that if a computation fails at given node, another node will take over.
 
 \section{Project structure}
 
@@ -808,7 +808,7 @@ The \textit{learn} function notifies an edge that \textit{occurence} occured. Us
 
 There are two kinds of edges: \textit{DiscreteEdge} and \textit{ContinuousEdge}. As expected, \textit{DiscreteEdge} represents a discrete random variable, whereas \textit{ContinuousEdge} represents a continuous random variable.
 
-To estimate the parameters of continuous random variables using MLE, I am using jMEF Java library. Previously I used Spark's MLlib library for estimating parameters of a Gaussian Mixture Model (GMM). The problem with this is approach was that it can only estimate the parameters by making a computation across multiple nodes in a cluster. This is not a desired behavior since there are many estimations of small data that should run in parallel instead. Therefore, I ended up using jMEF library which estimates the parameters in sequential fashion.
+To estimate the parameters of continuous random variables using MLE, I am using jMEF Java library. Previously I used Spark's MLlib library for estimating parameters of a Gaussian mixture model (GMM). The problem with this is approach was that it can only estimate the parameters by making a computation across multiple nodes in a cluster. This is not a desired behavior since there are many estimations of small data that should run in parallel instead. Therefore, I ended up using jMEF library which estimates the parameters in sequential fashion.
 
 \paragraph{LearnedEdge}
 
@@ -1023,11 +1023,21 @@ I have described the theory behind dynamic naive Bayesian classifier (DNBC) and 
 
 \appendix
 
-\chapter{Seznam použitých zkratek}
+\chapter{List of abbreviations}
 % \printglossaries
 \begin{description}
-	\item[GUI] Graphical user interface
-	\item[XML] Extensible markup language
+	\item[ASR] average success rate
+	\item[API] application programming interface
+	\item[CPT] conditional probability table
+	\item[DAG] dynamic acyclic graph
+	\item[DNBC] dynamic naive Bayesian classifier
+	\item[EM] expectation-maximization
+	\item[GMM] Gaussian mixture model
+	\item[HMM] hidden Markov model
+	\item[i.i.d.] independent, identically distributed
+	\item[JVM] Java virtual machine
+	\item[PDF] probability density function
+	\item[MC] Markov chain
 \end{description}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
