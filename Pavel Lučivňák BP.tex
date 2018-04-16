@@ -61,7 +61,7 @@ Limitation of HMM is that it only supports one observed random variable. In case
 
 Dynamic naive Bayesian classifier (DNBC) addresses this issue by supporting multiple observed variables. To avoid curse of dimensionality, the observed variables are assumed to be statistically independent with each other. Due to the fact that the observed variables are statistically independent, the model can be easily trained in parallel fashion.
 
-There are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian Networks, which is a super set of DNBC, it does not support computation on top of Apache Spark. Since Bayesian networks are above the scope of this thesis, I have decided to implement DNBC by myself.
+There are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian networks, which is a super set of DNBC, it does not support computation on top of Apache Spark. Since Bayesian networks are above the scope of this thesis, I have decided to implement DNBC by myself.
 
 In the inital chapters, I briefly cover mathematical background that this thesis is based on - namely Gaussian distribution and Gaussian mixture distribution. Then I discuss parameter estimation of probabilistic models. This will be useful for training of HMM and DNBC later on.
 
@@ -681,7 +681,9 @@ The observed variables are assumed to be conditionally independent from each oth
 
 \chapter{Implementation}
 
-I have implemented a Dynamic naive Bayesian Classifier in Scala programming language that runs on top of Apache Spark. I named this software \textit{dnbc-scala}.
+There are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian networks \cite{bayesian-networks}, which is a super set of DNBC, it does not support computations on top of Apache Spark. Bayesian networks use different learning and inference algorithms than DNBC. Extending this library would thus be above scope of this thesis.
+
+I have implemented a dynamic naive Bayesian classifier in Scala programming language that runs on top of Apache Spark. I named this software \textit{dnbc-scala}.
 
 \section{Scala language}
 
