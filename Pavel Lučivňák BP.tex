@@ -380,8 +380,6 @@ Given a sequence of observed symbols $x_1, x_2, \dots, x_T$, what is the probabi
 
 \subsection{Learning}
 
-\subsubsection{MLE/EM approach}
-
 \paragraph{Initial transition function}
 
 The initial probability vector $\pi$ can be viewed as a probability function $\pi_i$, assigning a probability to every hidden state $S_i \in S$. This is a function of discrete random variable that defines discrete probability distribution. As such, MLE technique (discussed in chapter \ref{parameter-estimation-chapter}) can be used to estimate the distribution parameters.
@@ -395,6 +393,10 @@ Every row of $A$ defines a probability function $a_{ij}$ with parameter $j$. The
 The observation probability functions $b_i(o)$ are functions of either discrete or continuous random variable that takes on values in set of observed symbols $X$. For purposes of this thesis, it is assumed that continuous variables have Gaussian or Gaussian mixture distribution.
 
 The functions $b_i(o)$ are also called emission functions (emissions). If values of the set of observed symbols $X$ are discrete, then the emissions define discrete distributions and the parameters can be estimated through MLE. If the values of $X$ are continuous, then the emissions define continuous probability distributions. As discussed earlier, parameters of Gaussian distribution can be estimated using MLE. Parameters of Gaussian mixture distribution can be estimated through EM algorithm.
+
+\paragraph{Baum-Welch training}
+
+Baum-Welch training is an alternative learning algorithm that is not based on the MLE approach. It will not be covered in this thesis, but its existence should be noted in case you are a curious reader.
 
 \subsection{Inference}
 
@@ -615,7 +617,7 @@ Given sequences of observed symbols $x_1^j, x_2^j, \dots, x_T^j, j \in [1,M]$ (o
 
 \subsection{Learning}
 
-\subsubsection{Maximum likelihood estimation}
+\paragraph{Maximum likelihood estimation}
 
 This learning approach is similar to one described in case of HMM. The only difference is that there are multiple emission functions $b^j_i(o)$ where $j \in [1,M]$ and $M$ is the number of observed variables. Therefore, there is now $M \times N$ continuous distributions to be learned. Each distribution is assumed to be Gaussian or Gaussian mixture.
 
