@@ -938,19 +938,37 @@ The base parameters used for data set generations and performance measurement ar
 	number of training sequences & 1000 \\
 	number of testing sequences & 200 \\
 	number of hidden states & 10 \\
+	number of discrete observed variables & 5 \\
+	number of continuous observed variables & 5 \\
+	max number of components per mixture & 3 \\
+	transitions per hidden state & 5 \\
+	\hline
+\end{tabular}
+\caption{Base data set generation and evaluation parameters.}
+\label{tab:base-parameters}
+\end{table}
+
+\paragraph{Scalability}
+
+Goal of this measurement is to see how well the software scales as we increase number of workers. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data. The data set was generated according to table \ref{tab:scalability-parameters}.
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|}
+	\hline
+	length of sequences & 200 \\
+	number of training sequences & 1000 \\
+	number of testing sequences & 200 \\
+	number of hidden states & 10 \\
 	number of discrete observed variables & 30 \\
 	number of continuous observed variables & 30 \\
 	max number of components per mixture & 3 \\
 	transitions per hidden state & 5 \\
 	\hline
 \end{tabular}
-\caption{Base data set generation and evaluation parameters for performance measurement.}
-\label{tab:base-parameters}
+\caption{Scalability data set generation parameters.}
+\label{tab:scalability-parameters}
 \end{table}
-
-\paragraph{Scalability}
-
-Goal of this measurement is to see how well the software scales as we increase number of workers. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data.
 
 \begin{figure}
 	\centering
