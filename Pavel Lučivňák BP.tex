@@ -933,7 +933,7 @@ The base parameters used for data set generations and performance measurement ar
 \centering
 \begin{tabular}{|c|c|}
 	\hline
-	workers & 2 \\
+	number of processors & 2 \\
 	length of sequences & 200 \\
 	number of training sequences & 1000 \\
 	number of testing sequences & 200 \\
@@ -948,9 +948,9 @@ The base parameters used for data set generations and performance measurement ar
 \label{tab:base-parameters}
 \end{table}
 
-\paragraph{Scalability}
+\paragraph{Local scalability}
 
-Goal of this measurement is to see how well the software scales as we increase number of workers. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data. The data set was generated according to table \ref{tab:scalability-parameters}.
+Goal of this measurement is to see how well the software scales as we increase number of processors. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data. The data set was generated according to table \ref{tab:scalability-parameters}.
 
 \begin{table}
 \centering
@@ -986,6 +986,17 @@ To focus on scalability of learning itself, figure \ref{fig:parallel_continuous_
  	\includegraphics[width=0.7\textwidth]{parallel_continuous_emissions_learning_time}
  	\caption{Continuous emissions learning time per number of workers.}
  	\label{fig:parallel_continuous_emissions_learning_time}
+\end{figure}
+
+\paragraph{Cluster scalability}
+
+In this experiment, I set up 8 independent worker nodes in a cluster. Every worker is assigned 15 GB RAM and 10 GB disk space. The goal is to measure scalability as the number of processors per node increases. As it can be seen on figure \ref{fig:cluster_continuous_learning_time}, the continuous emissions learning time is is about 45\% lower when using $8 \times 4$ processors in comparison to using 8 processors.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.7\textwidth]{cluster_continuous_learning_time}
+ 	\caption{Continuous emissions learning time per number of processors per worker.}
+ 	\label{fig:cluster_continuous_learning_time}
 \end{figure}
 
 \paragraph{Training sequences}

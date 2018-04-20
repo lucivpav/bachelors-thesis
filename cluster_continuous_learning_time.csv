@@ -1,0 +1,7 @@
+# values: continuous emissions learning time
+# 8 workers
+# columns: cpus_per_worker: 1 2 3 4
+24 20 15 17
+26 21 18 14
+26 33 21 18
+30 24 18 18
