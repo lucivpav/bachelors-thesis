@@ -1,0 +1,43 @@
+assumed structure:
+workers sequenceLength learningSetLength testingSetLength hiddenStateCount discreteEmissionCount continuousEmissionCount maxGaussiansPerMixture transitionsPerNode
+config:
+200 1000 200 10 100 100 3 5
+Transitions learning time: 1[s]
+Discrete emissions learning time: 0[s]
+Continuous emissions learning time: 20[s]
+Average success rate: 100.0%
+Learning time: 81 [s]
+Testing time: 111 [s]
+
+assumed structure:
+workers sequenceLength learningSetLength testingSetLength hiddenStateCount discreteEmissionCount continuousEmissionCount maxGaussiansPerMixture transitionsPerNode
+config:
+200 1000 200 10 100 100 3 5
+Transitions learning time: 1[s]
+Discrete emissions learning time: 0[s]
+Continuous emissions learning time: 21[s]
+Average success rate: 100.0%
+Learning time: 82 [s]
+Testing time: 131 [s]
+
+assumed structure:
+workers sequenceLength learningSetLength testingSetLength hiddenStateCount discreteEmissionCount continuousEmissionCount maxGaussiansPerMixture transitionsPerNode
+config:
+200 1000 200 10 100 100 3 5
+Transitions learning time: 1[s]
+Discrete emissions learning time: 0[s]
+Continuous emissions learning time: 33[s]
+Average success rate: 99.995%
+Learning time: 96 [s]
+Testing time: 104 [s]
+
+assumed structure:
+workers sequenceLength learningSetLength testingSetLength hiddenStateCount discreteEmissionCount continuousEmissionCount maxGaussiansPerMixture transitionsPerNode
+config:
+200 1000 200 10 100 100 3 5
+Transitions learning time: 1[s]
+Discrete emissions learning time: 0[s]
+Continuous emissions learning time: 24[s]
+Average success rate: 100.0%
+Learning time: 83 [s]
+Testing time: 108 [s]

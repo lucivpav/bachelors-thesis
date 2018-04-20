@@ -1,0 +1,10 @@
+assumed structure:
+workers sequenceLength learningSetLength testingSetLength hiddenStateCount discreteEmissionCount continuousEmissionCount maxGaussiansPerMixture transitionsPerNode
+config:
+2 200 1000 200 10 30 30 3 5
+Transitions learning time: 0[s]
+Discrete emissions learning time: 1[s]
+Continuous emissions learning time: 13[s]
+Average success rate: 100.0%
+Learning time: 25 [s]
+Testing time: 26 [s]
