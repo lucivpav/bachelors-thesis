@@ -950,25 +950,7 @@ The base parameters used for data set generations and performance measurement ar
 
 \paragraph{Local scalability}
 
-Goal of this measurement is to see how well the software scales as we increase number of processors. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data. The data set was generated according to table \ref{tab:scalability-parameters}.
-
-\begin{table}
-\centering
-\begin{tabular}{|c|c|}
-	\hline
-	length of sequences & 200 \\
-	number of training sequences & 1000 \\
-	number of testing sequences & 200 \\
-	number of hidden states & 10 \\
-	number of discrete observed variables & 30 \\
-	number of continuous observed variables & 30 \\
-	max number of components per mixture & 3 \\
-	transitions per hidden state & 5 \\
-	\hline
-\end{tabular}
-\caption{Scalability data set generation parameters.}
-\label{tab:scalability-parameters}
-\end{table}
+Goal of this measurement is to see how well the software scales as we increase number of processors. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Every configuration was measured 4 times to enable better understanding of the data. The data sets had 30 discrete and 30 continuous observed variables.
 
 \begin{figure}
 	\centering
@@ -990,7 +972,7 @@ To focus on scalability of learning itself, figure \ref{fig:parallel_continuous_
 
 \paragraph{Cluster scalability}
 
-In this experiment, I set up 8 independent worker nodes in a cluster. Every worker is assigned 15 GB RAM and 10 GB disk space. The goal is to measure scalability as the number of processors per node increases. As it can be seen on figure \ref{fig:cluster_continuous_learning_time}, the continuous emissions learning time is is about 45\% lower when using $8 \times 4$ processors in comparison to using 8 processors.
+In this experiment, I set up 8 independent worker nodes in a cluster. Every worker is assigned 15 GB RAM and 10 GB disk space. The goal is to measure scalability as the number of processors per node increases. The data sets had 100 discrete and 100 continuous observed variables. As it can be seen on figure \ref{fig:cluster_continuous_learning_time}, the continuous emissions learning time is is about 45\% lower when using $8 \times 4$ processors in comparison to using 8 processors.
 
 \begin{figure}
 	\centering
