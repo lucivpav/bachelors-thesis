@@ -12,6 +12,6 @@ plot 'discrete_mle.csv' using ($2):xtic(1) with boxes
 
 
 set output 'discrete_mle_prob.pdf
-set ylabel 'Probability'
+set ylabel 'Likelihood'
 set yrange [0:1]
 plot 'discrete_mle.csv' using ($3):xtic(1) with boxes
