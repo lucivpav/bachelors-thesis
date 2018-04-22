@@ -284,12 +284,12 @@ Markov chain describes possible sequences of events in which a probability of be
 
 \subsection{Description}
 
-A Markov chain is defined by
+Markov chain is defined by
 
 \begin{itemize}
-\item set of states $S = \{S_1, S_2, \dots, S_N\}$,
-\item transition matrix $A \in \textbf R^{N \times N}$,
-\item initial probability vector $\pi \in \textbf R^N$.
+\item a set of states $S = \{S_1, S_2, \dots, S_N\}$,
+\item a transition matrix $A \in \textbf R^{N \times N}$,
+\item an initial probability vector $\pi \in \textbf R^N$.
 \end{itemize}
 
 Where $a_{ij}, 1 \leq i,j \leq N$ is a probability of transitioning from state $S_i$ into state $S_j$. $\pi_i$ is a probability that the initial state is $S_i$.
@@ -310,26 +310,26 @@ Markov chain satisfies a Markov property. This property says that $P(y_{t+1}=S_i
 
 As an example, consider a Markov chain (MC) with three states: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. This MC models how weather changes on every day. Suppose the following transition matrix:
 
-\begin{equation}
+\begin{equation*}
 A =
 \begin{bmatrix}
 	0.6	& 0.1 & 0.3 \\
 	0.1 & 0.7 & 0.2 \\
 	0.3 & 0.3 & 0.4
 \end{bmatrix}.
-\end{equation}
+\end{equation*}
 
-If the weather is sunny, tomorrow will be most likely sunny as well. With probability 0.3, it will be cloudy. Rainy weather is very unlikely tomorrow. Consider the following initial probability vector:
+The transition matrix is readable for a human. For example, if the weather is sunny, tomorrow will be most likely sunny as well. With probability 0.3, it will be cloudy. Rainy weather is very unlikely tomorrow. Consider the following initial probability vector:
 
-\begin{equation}
+\begin{equation*}
 \pi = \begin{bmatrix} 0.3 \\ 0.2 \\ 0.5 \end{bmatrix}.
-\end{equation}
+\end{equation*}
 
-The most likely weather on first day of measurement is cloudy.
+As it can be seen, the most likely weather on first day of measurement is cloudy.
 
 \subsection{Limitations}
 
-The previous example only takes into account weather at time $t$ to predict weather at time $t+1$. In reality, there are multiple factors that influence what the weather will be like. According to the example, if a weather is sunny now, it is unlikely it will start raining. If we, however, take into account humidity, we can improve the prediction. If we know that humidity is high, even though it was sunny, we can predict it started raining. Hidden Markov model addresses this issue.
+The previous example only takes into account the weather at time $t$ to predict the weather at time $t+1$. In the reality, there are multiple factors that influence what the weather will be like. According to the example, if a weather is sunny now, it is relatively unlikely it will start raining. If we, however, take into account a humidity, we can improve the prediction. If we know that the humidity is high, even though it was sunny, we can predict it started raining. Hidden Markov model addresses this issue.
 
 \section{Hidden Markov model}
 
@@ -339,22 +339,22 @@ Hidden Markov model (HMM) is an extension of Markov chain. The states are now ca
 
 \subsection{Description}
 
-HMM is defined by: (based on paper by L. Rabiner \cite{hmm-lawrence})
+HMM is defined by (based on paper by L. Rabiner \cite{hmm-lawrence}):
 \begin{itemize}
 
-\item set of hidden states $S = \{S_1, S_2, \dots, S_N\}$,
-\item set of observed symbols $X$,
-\item transition matrix $A \in \textbf R^{N \times N}$,
-\item observation probability functions $B = \{b_1(o), b_2(o), \dots, b_N(o)\}$,
-\item initial probability vector $\pi \in \textbf R^N$.
+\item a set of hidden states $S = \{S_1, S_2, \dots, S_N\}$,
+\item a set of observed symbols $X$,
+\item a transition matrix $A \in \textbf R^{N \times N}$,
+\item an observation probability functions $B = \{b_1(o), b_2(o), \dots, b_N(o)\}$,
+\item an initial probability vector $\pi \in \textbf R^N$.
 
 \end{itemize}
 
-The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$. This probability function is also called an emission function.
+The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$, where $o \in X$. This probability function is also called an emission function.
 
-Imagine a walk through a HMM graph (see figure \ref{fig:hmm_graph} for an example graph). At time point $t$, there is a hidden state $y_t$ and an observed symbol $x_t$. Value of the observed symbol conditionally depends on value of the hidden state. The dependency is described by emission function $b_i(o)$.
+Imagine a walk through a HMM graph (see figure \ref{fig:hmm_graph} for an example graph). At each time point $t$, there is a hidden state $y_t$ and an observed symbol $x_t$. A value of the observed symbol conditionally depends on a value of the hidden state. The dependency is described by emission function $b_i(o)$.
 
-If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on value of previous hidden state $y_{t-1}$. The dependency is described by transition $a_{ij}$. If $t = 1$, there is a hidden state $y_1$ that conditionally depends on initial transition $\pi_i$.
+If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on a value of previous hidden state $y_{t-1}$. The dependency is described by the transition $a_{ij}$. If $t = 1$, there is a hidden state $y_1$ that conditionally depends on the initial transition $\pi_i$.
 
 \begin{figure}
 	\centering
@@ -367,15 +367,9 @@ If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depe
 
 There are three common operations that can be performed on HMM. Learning, inference and scoring.
 
-\subsubsection{Learning}
-
-Learning is used to estimate the model parameters $\{\pi, A, B\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x_j | \lambda )$ is maximized. Where $M \in \textbf N$ is a number of sequences to be learned. $\textbf x_j$ is a \emph{j}-th sequence of observed symbols. In other words, it is desired to maximize the probability that given sequences of observed symbols were generated by the model.
-
-\subsubsection{Inference}
+Learning is used to estimate the model parameters $\{\pi, A, B\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x_j | \lambda )$ is maximized. Where $M \in \textbf N$ is a number of sequences used in learning. $\textbf x_j$ is a \emph{j}-th sequence of observed symbols. In other words, it is desired to maximize the probability that given sequences of observed symbols were generated by the model.
 
 Inference returns the most likely sequence of hidden states, given a sequence of observed symbols.
-
-\subsubsection{Scoring}
 
 Given a sequence of observed symbols $x_1, x_2, \dots, x_T$, what is the probability that the sequence was generated by HMM with parameters $\lambda$? Scoring answers this question.
 
@@ -387,17 +381,17 @@ The initial probability vector $\pi$ can be viewed as a probability function $\p
 
 \paragraph{Transition function}
 
-Every row of $A$ defines a probability function $a_{ij}$ with parameter $j$. These functions are called transition functions. The function describes a probability of transitioning into state $S_j$ form state $S_i$. The transition functions define discrete probability distributions. Parameters of every such distribution can be estimated using MLE.
+Every row of $A$ defines a probability function $a_{ij}$. These functions are called transition functions. The transition functions define discrete probability distributions. Parameters of every such distribution can be estimated using MLE.
 
 \paragraph{Emission function}
 
-The observation probability functions $b_i(o)$ are functions of either discrete or continuous random variable that takes on values in set of observed symbols $X$. For purposes of this thesis, it is assumed that continuous variables have Gaussian or Gaussian mixture distribution.
+The observation probability functions $b_i(o)$ are functions of either discrete or continuous random variable that takes on values in set of observed symbols $X$. For purposes of this thesis, it is assumed that continuous variables follow a Gaussian or Gaussian mixture distribution.
 
 The functions $b_i(o)$ are also called emission functions (emissions). If values of the set of observed symbols $X$ are discrete, then the emissions define discrete distributions and the parameters can be estimated through MLE. If the values of $X$ are continuous, then the emissions define continuous probability distributions. As discussed earlier, parameters of Gaussian distribution can be estimated using MLE. Parameters of Gaussian mixture distribution can be estimated through EM algorithm.
 
 \paragraph{Baum-Welch training}
 
-Baum-Welch training is an alternative learning algorithm that is not based on the MLE approach. It will not be covered in this thesis, but its existence should be noted in case you are a curious reader.
+Baum-Welch training is an alternative learning algorithm that is not based on the MLE approach. It will not be covered in this thesis, but its existence should be noted in case you are a curious reader \cite{hmm-lawrence}.
 
 \subsection{Inference}
 
@@ -413,9 +407,9 @@ where $\lambda$ are parameters of HMM model.
 
 At time point $t=1$, the probability of being at hidden state $S_i$ is simply the initial probability of being at that state and a probability of being at observed state $x_1$ given hidden state $S_i$. In other words:
 
-\begin{equation}
+\begin{equation*}
 \alpha_1(i) = \pi_i b_i(x_1).
-\end{equation}
+\end{equation*}
 
 \paragraph{Recursion}
 Taking into account the structure of HMM, the equation \ref{eq:hmm_viterbi_a} can be rewritten recursively as
@@ -426,9 +420,9 @@ Taking into account the structure of HMM, the equation \ref{eq:hmm_viterbi_a} ca
 
 Hidden state at particular time point $t$ is determined by
 
-\begin{equation}
+\begin{equation*}
 s_t = S_{\argmax_i \alpha_{t}(i)}.
-\end{equation}
+\end{equation*}
 
 \paragraph{Complexity}
 
@@ -441,15 +435,15 @@ In previous section, I have defined $\alpha_t(i)$ to be a probability of a seque
 
 In order to compute the probability that sequence of observed symbols was generated by the HMM (score), take a look how $\alpha_T(i)$ is defined:
 
-\begin{equation} \label{eq:hmm_scoring_alpha}
+\begin{equation*}
 \alpha_T(i) = max_{y_1,y_2,\dots,y_{T-1}} P(y_1,y_2,\dots,y_{T-1},y_T = S_i,x_1,x_2,\dots,x_T | \lambda).
-\end{equation}
+\end{equation*}
 
 The score is then
 
-\begin{equation} \label{eq:hmm_score}
+\begin{equation*}
 \sum_{i=1}^{N} \alpha_T(i).
-\end{equation}
+\end{equation*}
 
 \subsection{Example}
 
@@ -460,10 +454,10 @@ The score is then
  	\label{fig:hmm_graph}
 \end{figure}
 
-Suppose an extension of an example mentioned in Markov chain chapter. i.e. there are three hidden states of weather: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. Let's introduce a continuous observed random variable describing humidity level. It is easy to imagine that on sunny day, the humidity will be typically lower than on a rainy day. This observable variable can help in predicting future weather.
+Suppose an extension of an example mentioned in Markov chain chapter. i.e. there are three hidden states of weather: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. Let's introduce a continuous observed random variable describing humidity level. It is easy to imagine that on sunny day, the humidity will be typically lower than on a rainy day. This observable variable can help in predicting future weather. The example is depicted in figure \ref{fig:hmm_graph}.
 
 \subsection{Limitations}
-There is only one observed variable, which may not be sufficient for successful prediction in real-life applications. One could increase the dimensionality of the observed variable. That would, however, lead to a problem called \textit{curse of dimensionality}. As we would increase the dimensionality of observed variable, the learning time would increase greatly up to the point where it would no longer be tractable. Dynamic naive Bayesian classifier addresses this issue.
+There is only one observed variable, which may not be sufficient for successful prediction in real-life applications. One could increase the dimensionality of the observed variable. That would, however, lead to a problem called \textit{curse of dimensionality}. As we would increase the dimensionality of observed variable, the learning time would increase greatly up to the point where it would no longer be tractable. More training data would be necessary too. Dynamic naive Bayesian classifier addresses this issue.
 
 \section{Bayesian network}
 
@@ -668,9 +662,9 @@ $N(N+M) T$.
 
 Scoring is performed the same way as in case of HMM. That is, the score can be calculated as
 
-\begin{equation} \label{eq:hmm_score}
+\begin{equation*}
 \sum_{i=1}^{N} \alpha_T(i).
-\end{equation}
+\end{equation*}
 
 \subsection{Example}
 
