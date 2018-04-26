@@ -16,8 +16,30 @@
 % \usepackage{amssymb} %additional math symbols
 
 \usepackage{dirtree} %directory tree visualisation
+
 \usepackage{listings} %source code visualisation
-\lstset{breaklines}
+\usepackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstdefinestyle{myScalastyle}{
+	frame=tb,
+	language=scala,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	frame=single,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
 
 % % list of acronyms
 % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
@@ -716,47 +738,45 @@ Figure \ref{fig:module-dependencies} provides overview of the project structure 
 
 \textit{DynamicNaiveBayesianClassifier} object in \textit{core} module serves as a factory for already learned class \textit{DynamicNaiveBayesianClassifier}.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 object DynamicNaiveBayesianClassifier {
   def mle(sc: SparkContext,
           sequences: Iterable[Seq[State]],
           continuousVariableHints: Option[List[Int]] = Option.empty)
-          : DynamicNaiveBayesianClassifier = {
-          // ...
-          }
+          : DynamicNaiveBayesianClassifier
 }
 \end{lstlisting}
 
-The function \textit{mle} returns a learned (using MLE) model. \textit{sequences} are sequences of \textit{States} used for learning. Optional argument \textit{continuousVariableHints} can be provided to set the number of components in Gaussian mixtures. The implementation does not try to estimate the number. If the parameter is not provided, the continuous variables are expected to have normal distribution.
+The function \textit{mle} returns a learned model. \textit{sequences} are sequences of \textit{States} used for learning. Optional argument \textit{continuousVariableHints} can be provided to set the number of components in Gaussian mixtures. The implementation does not try to estimate this number. If the parameter is not provided, the continuous variables are expected to be normally distributed.
 
-The model parameters (\textit{Edges}) are learning in every sequence of states. After all the sequences have been processed, learning is finalized by calling \textit{learnFinalize} on every edge. These functions are executed in parallel since they are not data-dependent with each other.
+The model parameters (\textit{Edges}) are learned in every sequence of states. After processing of all input sequences, learning is finalized by calling a function \textit{learnFinalize} on each edge. These functions are executed in parallel since their execution order is not important and they do not depend on each other.
 
-\paragraph{DynamicNaiveBayesianClassifier class}
+\paragraph{Learned DNBC class}
 
-This class represents a DNBC model with known parameters.
+This following class represents a DNBC model with known parameters.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 class DynamicNaiveBayesianClassifier(
-initialEdge: LearnedDiscreteEdge,
-transitions: Map[String, LearnedDiscreteEdge],
-discreteEmissions: List[Map[String, LearnedDiscreteEdge]],
-continuousEmissions: List[Map[String, LearnedContinuousEdge]]) {
-def inferMostLikelyHiddenStates(observedStates: Seq[ObservedState]): List[String]
-def score(observedStates: Seq[ObservedState]): Double
+	initialEdge: LearnedDiscreteEdge,
+	transitions: Map[String, LearnedDiscreteEdge],
+	discreteEmissions: List[Map[String, LearnedDiscreteEdge]],
+	continuousEmissions: List[Map[String, LearnedContinuousEdge]]) {
+	def inferMostLikelyHiddenStates(observedStates: Seq[ObservedState]): List[String]
+	def score(observedStates: Seq[ObservedState]): Double
 }
 \end{lstlisting}
 
-The \textit{inferMostLikelyHiddenStates} function returns the most likely sequence of hidden states given a sequence of observed states. I am using Viterbi algorithm. The following is a function for Viterbi initialization.
+The \textit{inferMostLikelyHiddenStates} function returns the most likely sequence of hidden states given a sequence of observed states. The function uses Viterbi algorithm. The following code is a function for Viterbi initialization.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
   private def viterbiInitialize(observedStates: Seq[ObservedState]): Map[String,Double] = {
     var vcur = Map.empty[String,Double]
     for (hiddenState <- transitions.keys) {
       var emissionsSum = 0.0
       emissionsSum += discreteEmissions.zipWithIndex.map(z => Math.log(z._1(hiddenState)
-        .probability(observedStates.head.DiscreteVariables(z._2)))).sum
+      .probability(observedStates.head.DiscreteVariables(z._2)))).sum
       emissionsSum += continuousEmissions.zipWithIndex.map(z => Math.log(z._1(hiddenState)
-        .probability(observedStates.head.ContinuousVariables(z._2)))).sum
+      .probability(observedStates.head.ContinuousVariables(z._2)))).sum
       vcur += (hiddenState -> (emissionsSum + Math.log(initialEdge.probability(hiddenState))))
     }
     vcur
@@ -771,7 +791,7 @@ The Viterbi algorithm is not implemented in parallel. The reason is that the alg
 
 An observed state at given time point consists of observations of all the discrete and continuous variables. This is represented by \textit{ObservedState} class.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 class ObservedState(discreteVariables: List[String], continuousVariables: List[Double]) {
   def DiscreteVariables: List[String] = discreteVariables
   def ContinuousVariables: List[Double] = continuousVariables
@@ -780,7 +800,7 @@ class ObservedState(discreteVariables: List[String], continuousVariables: List[D
 
 A state at given time point consists of a hidden state and an \textit{ObservedState}. Throughout the project, the hidden states are of \textit{String} type.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 class State(hiddenState: String, observedState: ObservedState) {
   def HiddenState: String = hiddenState
   def ObservedState: ObservedState = observedState
@@ -791,7 +811,7 @@ class State(hiddenState: String, observedState: ObservedState) {
 
 An edge represents a particular random variable, parameters of which are to be learned.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 trait Edge[T] {
   def learn(occurrence: T): Unit
   def learnFinalize(): LearnedEdge[T]
@@ -808,7 +828,7 @@ To estimate the parameters of continuous random variables using MLE, I am using 
 
 A \textit{LearnedEdge} represents a random variable which parameters have been already estimated. The \textit{probability} function returns a probability that a state occurs.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 trait LearnedEdge[T] {
   def probability(state: T): Double
 }
@@ -818,7 +838,7 @@ trait LearnedEdge[T] {
 
 A \textit{RandomEdge} generates random value given random variable parameters. This is useful for performance measurement, where data sets are randomly generated.
 
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[style=myScalaStyle]
 trait RandomEdge[T] {
   def next(): T
 }
@@ -831,45 +851,35 @@ Since the Viterbi algorithm is computing products of probabilities, the resultin
 \begin{equation*}
 \log(abc) = \log(a)+\log(b)+\log(c).
 \end{equation*}
-
 Now instead of multiplying tiny numbers together, one can use addition.
 
 \section{Data set generation}
 
-The \textit{test-utils} module contains a function \textit{generatePerformanceDataSet}. This generates a random data set, given parameters, that can be used for measuring learning and testing time. The table \ref{tab:generation-parameters} contains a list of supported parameters.
+The \textit{test-utils} module contains a function \textit{generatePerformanceDataSet}. This generates a random data set, given parameters. The data set can be used for measuring learning and testing time. The supported parameters are:
 
-\begin{table}
-\centering
-\begin{tabular}{|c|}
-	\hline
-	parameter \\
-	\hline
-	length of sequences \\
-	number of training sequences \\
-	number of testing sequences \\
-	number of hidden states \\
-	number of discrete observed variables \\
-	number of continuous observed variables \\
-	max number of components per mixture \\
-	transitions per hidden state \\
-	\hline
-\end{tabular}
-\caption{Data set generation parameters}
-\label{tab:generation-parameters}
-\end{table}
+\begin{enumerate}
+	\item the length of sequences,
+	\item the number of training sequences,
+	\item the number of testing sequences,
+	\item the number of hidden states,
+	\item the number of discrete observed variables,
+	\item the number of continuous observed variables,
+	\item the maximum number of components per mixture,
+	\item the number of transitions per hidden state.
+\end{enumerate}
 
-The initial edge probabilities are generated from a normal distribution and then normalized. The transition destinations are chosen randomly from a uniform distribution. The probabilities of transitions are then set the same way as in case of initial edge. Same approach is used for discrete emissions.
+The initial edge probabilities are generated by choosing random number from a Gaussian distribution. The numbers are then normalized to ensure their sum is equal to one. Every hidden state's transition destination is chosen randomly from an uniform distribution. The probabilities of transitions are then set the same way as in case of initial edge. Same approach is used for discrete emissions.
 
-For continuous emissions, the components of GMM are chosen randomly in uniform fashion in range of these parameters:
+For continuous emissions, the parameters of GMM are chosen randomly in uniform fashion in range of these parameters:
 
 \begin{equation*}
 \mu \in [-10,10],
 \sigma^2 \in [1,4].
 \end{equation*}
-
-\medskip
-
 The weights in a \textit{RandomContinuousEdge} are all equal.
+
+\section{Source code}
+The implementation is available on GitHub \cite{dnbc-scala} or via the provided USB flash drive as part of this thesis.
 
 \chapter{Experiments}
 
