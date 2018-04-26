@@ -675,13 +675,17 @@ There are no existing DNBC libraries written in Scala language. Although there e
 
 I have implemented a dynamic naive Bayesian classifier in Scala programming language that runs on top of Apache Spark. I named this software \textit{dnbc-scala}.
 
-\section{Scala language}
-
-Scala is a programming language that combines functional and object-oriented programming. Scala code compiles into Java virtual machine (JVM) bytecode. This enables one to incorporate existing Java libraries into a Scala project.
-
 \section{Apache Spark}
 
-Apache Spark is an engine for cluster-computing. It provides application programming interface (API) that developers can use to execute computations on multiple nodes - processors or machines in a cluster. Spark is also fault-tolerant, meaning that if a computation fails at given node, another node will take over.
+Apache Spark is an engine for cluster-computing. It provides application programming interface (API) that developers can use to execute computations on multiple nodes\textemdash processors or machines in a cluster. Spark is also fault-tolerant, meaning that if a computation fails at given node, another node will take over.
+
+When executing a program on top of Spark, it runs as a \textit{driver}. The driver passes execution of parallel operations such as \textit{map} or \textit{reduce} to Spark. These operations are then processed on multiple nodes in the cluster \cite{spark}.
+
+Map and reduce are fundamental operations in functional programming. The map operation takes a set of input data and converts it into another set. For example, one can transform a set of strings into a set of their corresponding lengths. Reduce takes a set of input data and combines it together. For example, one can take a set of numbers and add them together.
+
+The map operation assumes that the input data set can be independently converted into another set. This enables the operation to run in parallel. The reduce operation assumes that the input data can be combined in any order. Thus the operation can be also performed in parallel fashion.
+
+Apache Spark is implemented in Scala programming language. The language combines functional and object-oriented programming. Scala code compiles into Java virtual machine (JVM) bytecode. This enables one to incorporate existing Java libraries into a Scala project.
 
 \section{Project structure}
 
