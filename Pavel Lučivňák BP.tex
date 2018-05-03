@@ -879,9 +879,15 @@ The implementation is available on GitHub \cite{dnbc-scala} or via the provided 
 
 \chapter{Experiments}
 
-\section{Unit tests}
+In this section, I conduct experiments of two kinds. First, I focus on how well DNBC learns a realistic data set. Then I measure scalability potential on randomly generated data sets.
 
-I am using a Toy Robot data set \cite{robot-maze} as a base data set for unit tests. Imagine a robot wandering through a maze. There are 12 hidden states. Every hidden state is a 2D coordinate. Every hidden state has an associated color. The color is a discrete observed variable consisting of 4 states: red, green, blue and yellow. The initial state is chosen randomly. The data set contains of 200 training sequences and 200 test sequences. Every sequence consists of 200 time points. 10\% of the data set observed states at time points are chosen at random. This depicts robot's occasional failure to detect correct color.
+\section{Realistic data set}
+
+\subsection{Experiment design}
+
+I am using a Toy Robot data set \cite{robot-maze} as a base data set. Imagine a robot wandering through a maze. There are 12 hidden states. Every hidden state is a 2D coordinate. Each hidden state has an associated color. The color is a discrete observed variable that can take on 4 states: red, green, blue and yellow. The initial state is chosen randomly.
+
+The data set contains of 200 training sequences and 200 test sequences. Each sequence consists of 200 time points. 10\% of the data set observed states at time points are chosen at random. This simulates robot's occasional failure to detect correct color.
 
 \begin{figure}
 	\centering
@@ -891,26 +897,35 @@ I am using a Toy Robot data set \cite{robot-maze} as a base data set for unit te
 \end{figure}
 
 \paragraph{Measurement}
-For every data set in unit tests, an average success rate (ASR) is measured. This average is the average percentage of hidden states inferred correctly in the testing phase.
+For each realistic data set, an average success rate (ASR) is measured. This average is the average percentage of hidden states inferred correctly in the testing phase.
+
+\subsection{Experiments}
 
 \paragraph{Discrete variable}
-ASR on the Toy Robot data set is 65\%.
+The Toy Robot data set contains a single observed discrete variable. ASR on this data set is 65\%.
 
 \paragraph{Continuous variable}
-The Toy Robot data set is transformed to have a single continuous observed variable instead. Every color (discrete random variable) is replaced by temperature. The idea is that the 4 colors have different temperature distributions if sun is shedding light on the maze. ASR of this data set is 42\%.
+The Toy Robot data set is transformed to have a single continuous observed variable instead. Each color (discrete random variable) is replaced by a temperature. The idea is that the aforementioned 4 colors have different temperature distributions if sun is shedding light on the maze. ASR of this data set is 42\%.
 
 \paragraph{Discrete and continuous variable}
 A discrete observed variable is added to the continuous variable data set. This variable describes the quadrant of given 2D coordinate. It is assumed that these two variables are independent. ASR of this data set is 76\%.
 
 \paragraph{Gaussian mixture}
-A data set with single continuous observed variable is generated. Hidden states can take on two values: true and false. If the hidden state is true, observed state is generated from a Gaussian distribution. If the hidden state is false, observed state is generated from a Gaussian mixture distribution. Point of this test is to check that providing a variable hint describing the number of mixture components improves the ASR. ASR with correctly set variable hint is 3\% higher compared to a case where no hint is set.
+A data set with single continuous observed variable is generated. Hidden states can take on two values: true and false. If the hidden state is true, observed state is generated from a Gaussian distribution. If the hidden state is false, observed state is generated from a Gaussian mixture distribution. The problem is demonstrated in figure \ref{fig:gaussian_data_set}. Point of this test is to check that providing a variable hint describing the number of mixture components improves the ASR. If the hint is not provided, the mixture would be represented by a Gaussian distribution that would interfere with the other Gaussian distribution. Indeed, ASR with correctly set variable hint is 3\% higher compared to a case where no hint is set.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{gaussian_data_set}
+	\caption{Visualization of the Gaussian mixture data set. The solid curves represent a distribution of the observed continuous variable given hidden state is false. If the hidden state is true, the variable follows a Gaussian distribution as visualized by the dotted curve.}
+	\label{fig:gaussian_data_set}
+\end{figure}
 
 \paragraph{Scoring}
 A score is computed for a sequence of observed states that comes from a data set a DNBC was trained on. Another score is computed for a sequence of observed states that was generated randomly. Since the score is a log-probability, the values are negative. The following holds:
 
-\begin{lstlisting}[language=Scala]
-assert ( scoreReal*1.5 > scoreRandom ).
-\end{lstlisting}
+\begin{equation*}
+\text{scoreReal} \times 1.5 > \text{scoreRandom}.
+\end{equation*}
 
 \section{Performance}
 
