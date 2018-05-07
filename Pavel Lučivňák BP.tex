@@ -64,7 +64,7 @@
 	
 	Access to computing and storage facilities owned by parties and projects contributing to the National Grid Infrastructure MetaCentrum provided under the programme "Projects of Large Research, Development, and Innovations Infrastructures" (CESNET LM2015042), is greatly appreciated.}
 \abstractCS{Dynamický naivní Bayesovský klasifikátor (DNBC) nachází využití v mnoha oblastech, například při rozpoznávání hlasu, písma, nebo při předpovídání počasí. DNBC je rozšířením skrytého Markovského modelu tím, že podporuje více pozorovaných proměnných. Předpokládá se, že tyto proměnné jsou vzájemně statisticky nezávislé. Tento předpoklad značně zjednodušuje výpočty a nedochází tak k jevu, který je znamý jako \textit{prokletí dimenzionatily}. Klasifikátor byl naimplementován v programovacím jazyce Scala, nad platformou Apache Spark. Tato implementace využívá dostupných výpočetních zdrojů, kde práce je rozdělena na více procesorů. Díky paralelizaci se mi podařilo zkrátit čas potřebný pro učení na polovinu (oproti sekvenční verzi). Demonstroval jsem, že zrychlení lze dosáhnout nejenom vyšším počtem jader, ale i vyšším počtem strojů.}
-\abstractEN{Dynamic naive Bayesian networks (DNBC) have many applications, such as in speech recognition, handwriting recognition or weather prediction. DNBC extends a hidden Markov model by supporting multiple observed variables. It is assumed that these variables are mutually statistically independent. This assumption greatly simplifies computations and a phenomenon called \textit{curse of dimensionality} does not occur. I have implemented the classifier in Scala language on top of Apache Spark. My implementation makes use of computational resources available, distributing work load across multiple CPUs. Thanks to parallelization, I have shorten the time needed for learning by half (in comparison to the sequential implementation). I have further demonstrated, that the speed up can be achieved not only by increasing the number of cores, but also by increasing the number of machines in a cluster.}
+\abstractEN{Dynamic naive Bayesian classifier (DNBC) has many applications, such as in speech recognition, handwriting recognition or weather prediction. DNBC extends a hidden Markov model by supporting multiple observed variables. It is assumed that these variables are mutually statistically independent. This assumption greatly simplifies computations and a phenomenon called \textit{curse of dimensionality} does not occur. I have implemented the classifier in Scala language on top of Apache Spark. My implementation makes use of computational resources available, distributing work load across multiple CPUs. Thanks to parallelization, I have shortened the time needed for learning by half (in comparison to the sequential implementation). I have further demonstrated, that the speed up can be achieved not only by increasing the number of cores, but also by increasing the number of machines in a cluster.}
 \placeForDeclarationOfAuthenticity{Prague}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{dynamický naivní Bayesovský klasifikátor, skrytý Markovův model, metoda maximální věrohodnosti, Scala, Apache Spark}
@@ -93,7 +93,7 @@ In the Analysis chapter, I introduce foundations of DNBC. First, a Markov chain 
 
 DNBC is analyzed in terms of three basic operations that can be performed on it\textemdash learning, inference and scoring. I also provide an example problem and discuss limitations of DNBC.
 
-The chapter \ref{ch:implementation} describes implementation details and design decisions I made when creating a DNBC library. Finally, I show experimental results on randomly generated data sets. The experiments are focused on learning and testing time. Scalability is measured as well. In the end, I show how well DNBC performs in terms of the inference accuracy on realistic data sets.
+The chapter \ref{ch:implementation} describes implementation details and design decisions I made when creating a DNBC library. Finally, I show experimental results on randomly generated data sets. The experiments are focused on learning time and scalability. In the end, I show how well DNBC performs in terms of the inference accuracy on realistic data sets.
 \end{introduction}
 
 \chapter{Mathematical background}
@@ -354,7 +354,7 @@ The previous example only takes into account the weather at time $t$ to predict 
 
 \subsection{Introduction}
 
-Hidden Markov model (HMM) is an extension of Markov chain. The states are now called hidden states and every hidden state has an associated observed state.
+Hidden Markov model (HMM) is an extension of Markov chain. The states are now called hidden states and every hidden state has an associated observed symbol.
 
 \subsection{Description}
 
@@ -823,7 +823,7 @@ To estimate the parameters of continuous random variables using MLE, I am using 
 
 \paragraph{LearnedEdge}
 
-A \textit{LearnedEdge} represents a random variable which parameters have been already estimated. The \textit{probability} function returns a probability that a state occurs.
+A \textit{LearnedEdge} represents a random variable which parameters have been already estimated. The \textit{probability} function returns a probability (density) of the state.
 
 \begin{lstlisting}[style=myScalaStyle]
 trait LearnedEdge[T] {
@@ -876,7 +876,7 @@ For continuous emissions, the parameters of GMM are chosen randomly in uniform f
 The weights in a \textit{RandomContinuousEdge} are all equal.
 
 \section{Source code}
-The implementation is available on GitHub \cite{dnbc-scala} or via the provided USB flash drive as part of this thesis.
+The implementation is available on GitHub \cite{dnbc-scala} or via the provided CD that is part of this thesis.
 
 \chapter{Experiments}
 
@@ -936,9 +936,9 @@ In this section, I focus on learning time given a generated parametric data set.
 \centering
 \begin{tabular}{|c|c|}
 	\hline
-	CPU & 2x 8-core Intel Xeon E5-2650 v2 2.6 GHz \\
+	CPU & 2$\times$ 8-core Intel Xeon E5-2650 v2 2.6 GHz \\
 	RAM & 96 GB \\
-	disk & 2x500 GB HDD WD Velociraptor 10k SATA \\
+	disk & 2$\times$ 500 GB HDD WD Velociraptor 10k SATA \\
 	\hline
 \end{tabular}
 \caption{Machine specification \cite{machine-specification}}
