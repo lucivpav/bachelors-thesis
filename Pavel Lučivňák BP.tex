@@ -77,23 +77,25 @@
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-Hidden Markov model (HMM) is a probabilistic model that is widely used in many fields, e.g. for speech recognition, handwriting recognition or weather prediction. The model considers a hidden random variable and an observed random variable. In case of speech recognition, the hidden variable would be an actual letter from the alphabet a person said. The observed variable could then be a tone pitch. To estimate the current letter of a word that the person said, the model takes into account the previously said letter and the current pitch level.
+Hidden Markov model (HMM) is a probabilistic model that is widely used in many fields, e.g. speech recognition \cite{hmm-lawrence}, handwriting recognition \cite{hmm-handwriting} or weather prediction \cite{hmm-weather}. The model considers a hidden random variable and an observed random variable. For example, in the case of speech recognition, the hidden variable would be an actual letter from the alphabet a person said. The observed variable could then be a tone pitch. To estimate the current letter of a word that the person said, the model takes into account the previously said letter and the current pitch level.
 
-The model is first trained using labeled data\textemdash containing both hidden states and observed states.\footnote{This is true if using maximum likelihood estimation method for learning. In case of Baum-Welch algorithm, only observed states and list of possible hidden states are necessary.} Then an inference can be used to predict hidden states, knowing only observed states.
+The model is first trained using labeled data\textemdash containing both hidden states and observed states.\footnote{This is true for maximum likelihood estimation learning method. In the case of Baum-Welch algorithm, only observed states and list of possible hidden states are necessary.} Then an inference can be used to predict hidden states, knowing only observed states.
 
-A limitation of HMM is that it only supports one observed random variable. In case of the speech recognition, there are more variables than just tone pitch that are relevant to letter estimation. One could increase the dimensionality of the observed variable. However, this would lead to a phenomenon called \textit{curse of dimensionality} that would result in model training to be intractable.
+A limitation of HMM is that it only supports one observed random variable. In case of the speech recognition, there are more variables than just the tone pitch that are relevant to letter estimation. One could increase the dimensionality of the observed variable. However, this would lead to a phenomenon called \textit{curse of dimensionality} that would result in model training to be intractable.
 
-Dynamic naive Bayesian classifier (DNBC) addresses this issue by supporting multiple observed variables. To avoid the curse of dimensionality, the observed variables are assumed to be statistically independent with each other. Due to the fact that the observed variables are statistically independent, the model can be easily trained in the parallel fashion.
+Dynamic naive Bayesian classifier (DNBC) addresses this issue by supporting multiple observed variables. To avoid the curse of dimensionality, the observed variables are assumed to be statistically independent with each other (given the hidden variable). Due to the fact that the observed variables are statistically independent, the model can be easily trained in the parallel fashion.
 
-However, there are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian networks, which is a super set of DNBC, it does not support parallelization on top of Apache Spark. Since Bayesian networks are above the scope of this thesis, I have decided to implement DNBC by myself.
+However, there are no existing DNBC libraries written in Scala language. Although there exists a library for Bayesian networks \cite{bayesian-networks}, which is a super set of DNBC, it does not support parallelization on top of Apache Spark. Since Bayesian networks are above the scope of this thesis, I have decided to implement DNBC by myself.
 
-In the first chapter, I briefly cover mathematical background used in this thesis\textemdash namely Gaussian distribution and Gaussian mixture distribution. Then I discuss parameter estimation of probabilistic models. This will be useful for training of HMM and DNBC later on.
+In the first chapter, I briefly cover preliminary mathematical background used in this thesis\textemdash namely Gaussian distribution and Gaussian mixture distribution. Then, in the second chapter, I discuss parameter estimation of probabilistic models. This will be useful for training of HMM and DNBC later on.
 
-In the Analysis chapter, I introduce foundations of DNBC. First, a Markov chain is introduced together with hidden Markov model. Afterwards, Bayesian networks and its derivatives, naive Bayesian classifier and dynamic Bayesian networks are discussed. This gives us enough foundation for defining dynamic naive Bayesian classifier.
+In the third chapter, Analysis, I introduce foundations of DNBC. First, a Markov chain is introduced together with hidden Markov model. Afterwards, Bayesian networks and its derivatives, naive Bayesian classifier and dynamic Bayesian networks, are discussed. This gives us enough foundation for defining dynamic naive Bayesian classifier.
 
-DNBC is analyzed in terms of three basic operations that can be performed on it\textemdash learning, inference and scoring. I also provide an example problem and discuss limitations of DNBC.
+DNBC is analyzed in terms of three basic operations that can be performed on it\textemdash learning, inference and scoring. I also provide an application example and discuss limitations of DNBC.
 
-The chapter \ref{ch:implementation} describes implementation details and design decisions I made when creating a DNBC library. Finally, I show experimental results on randomly generated data sets. The experiments are focused on learning time and scalability. In the end, I show how well DNBC performs in terms of the inference accuracy on realistic data sets.
+In the fourth chapter, implementation details are described. Design decisions I made when creating a DNBC library are covered as well.
+
+Finally, in the fifth chapter, I show how well DNBC performs in terms of the inference accuracy on realistic data sets. In the end, I show experimental results on randomly generated data sets. The experiments are focused on learning time and scalability.
 \end{introduction}
 
 \chapter{Mathematical background}
