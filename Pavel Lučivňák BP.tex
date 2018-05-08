@@ -284,9 +284,10 @@ One issue with the EM algorithm is that it does not guarantee to find a global o
 
 \chapter{Analysis}
 
+In this chapter I introduce models that are fundamental for understanding DNBC. I begin with a description of a basic probabilistic model\textemdash Markov chain. Then I focus on more advanced models such as HMM and Bayesian networks.
+
 \section{Markov chain}
 
-\subsection{Introduction}
 Markov chain describes possible sequences of events in which a probability of being at a state at given time depends only on value of previous state. 
 
 \subsection{Description}
@@ -295,8 +296,8 @@ Markov chain is defined by
 
 \begin{itemize}
 \item a set of states $S = \{S_1, S_2, \dots, S_N\}$,
-\item a transition matrix $A \in \textbf R^{N \times N}$,
-\item an initial probability vector $\pi \in \textbf R^N$.
+\item a transition matrix $A \in \mathbb{R}^{N \times N}$,
+\item an initial probability vector $\pi \in \mathbb{R}^N$.
 \end{itemize}
 
 Where $a_{ij}, 1 \leq i,j \leq N$ is a probability of transitioning from state $S_i$ into state $S_j$. $\pi_i$ is a probability that the initial state is $S_i$.
@@ -315,8 +316,7 @@ Markov chain satisfies a Markov property. This property says that $P(y_{t+1}=S_i
  	\label{fig:mc}
 \end{figure}
 
-As an example, consider a Markov chain (MC) with three states: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. This MC models how weather changes on every day. Suppose the following transition matrix:
-
+As an example, consider a Markov chain (MC) with three states: $S_1 = \text{sunny}$, $S_2 = \text{rainy}$ and $S_3 = \text{cloudy}$. This MC models how weather changes every day. Suppose the following transition matrix:
 \begin{equation*}
 A =
 \begin{bmatrix}
@@ -327,11 +327,9 @@ A =
 \end{equation*}
 
 The transition matrix is readable for a human. For example, if the weather is sunny, tomorrow will be most likely sunny as well. With probability 0.3, it will be cloudy. Rainy weather is very unlikely tomorrow. Consider the following initial probability vector:
-
 \begin{equation*}
 \pi = \begin{bmatrix} 0.3 \\ 0.2 \\ 0.5 \end{bmatrix}.
 \end{equation*}
-
 As it can be seen, the most likely weather on first day of measurement is cloudy.
 
 \subsection{Limitations}
@@ -339,8 +337,6 @@ As it can be seen, the most likely weather on first day of measurement is cloudy
 The previous example only takes into account the weather at time $t$ to predict the weather at time $t+1$. In the reality, there are multiple factors that influence what the weather will be like. According to the example, if a weather is sunny now, it is relatively unlikely it will start raining. If we, however, take into account a humidity, we can improve the prediction. If we know that the humidity is high, even though it was sunny, we can predict it started raining. Hidden Markov model addresses this issue.
 
 \section{Hidden Markov model}
-
-\subsection{Introduction}
 
 Hidden Markov model (HMM) is an extension of Markov chain. The states are now called hidden states and every hidden state has an associated observed symbol.
 
@@ -351,17 +347,15 @@ HMM is defined by (based on paper by L. Rabiner \cite{hmm-lawrence}):
 
 \item a set of hidden states $S = \{S_1, S_2, \dots, S_N\}$,
 \item a set of observed symbols $X$,
-\item a transition matrix $A \in \textbf R^{N \times N}$,
+\item a transition matrix $A \in \mathbb R^{N \times N}$,
 \item an observation probability functions $B = \{b_1(o), b_2(o), \dots, b_N(o)\}$,
-\item an initial probability vector $\pi \in \textbf R^N$.
+\item an initial probability vector $\pi \in \mathbb R^N$.
 
 \end{itemize}
 
 The values of the $X$ can be either discrete or continuous. The values of $S$ are assumed to be discrete. The observation probability function $b_i(o)$ describes a probability $P(x_t = o | y_t = S_i)$, where $o \in X$. This probability function is also called an emission function.
 
-Imagine a walk through a HMM graph (see figure \ref{fig:hmm_graph} for an example graph). At each time point $t$, there is a hidden state $y_t$ and an observed symbol $x_t$. A value of the observed symbol conditionally depends on a value of the hidden state. The dependency is described by emission function $b_i(o)$.
-
-If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on a value of previous hidden state $y_{t-1}$. The dependency is described by the transition $a_{ij}$. If $t = 1$, there is a hidden state $y_1$ that conditionally depends on the initial transition $\pi_i$.
+Imagine a walk through a HMM graph (see figure \ref{fig:hmm_graph} for an example graph). At each time point $t$, there is a hidden state $y_t$ and an observed symbol $x_t$. A value of the observed symbol conditionally depends on a value of the hidden state. The dependency is described by emission function $b_i(o)$. If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depends on a value of previous hidden state $y_{t-1}$. The dependency is described by the transition $a_{ij}$. If $t = 1$, there is a hidden state $y_1$ that conditionally depends on the initial transition $\pi_i$.
 
 \begin{figure}
 	\centering
@@ -374,11 +368,11 @@ If $t \neq 1$ and $T > 1$, there is a hidden state $y_t$ that conditionally depe
 
 There are three common operations that can be performed on HMM\textemdash learning, inference and scoring.
 
-Learning is used to estimate the model parameters $\{\pi, A, B\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x_j | \lambda )$ is maximized. Where $M \in \textbf N$ is a number of sequences used in learning. $\textbf x_j$ is a \emph{j}-th sequence of observed symbols. In other words, it is desired to maximize the probability that given sequences of observed symbols were generated by the model.
+Learning is used to estimate the model parameters $\{\pi, A, B\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x_j | \lambda )$ is maximized. Where $M \in \mathbb N$ is a number of sequences used in learning. $\textbf x_j$ is a \emph{j}-th sequence of observed symbols. In other words, it is desired to maximize the probability that given sequences of observed symbols were generated by the model.
 
 Inference returns the most likely sequence of hidden states, given a sequence of observed symbols.
 
-Given a sequence of observed symbols $x_1, x_2, \dots, x_T$, what is the probability that the sequence was generated by HMM with parameters $\lambda$? Scoring answers this question.
+Given a sequence of observed symbols $x_1, x_2, \dots, x_T$, the probability that the sequence was generated by HMM with parameters $\lambda$ is called a score.
 
 \subsection{Learning}
 
@@ -394,33 +388,29 @@ Every row of $A$ defines a probability function $a_{ij}$. These functions are ca
 
 The observation probability functions $b_i(o)$ are functions of either discrete or continuous random variable that takes on values in set of observed symbols $X$. For purposes of this thesis, it is assumed that continuous variables follow a Gaussian or Gaussian mixture distribution.
 
-The functions $b_i(o)$ are also called emission functions (emissions). If values of the set of observed symbols $X$ are discrete, then the emissions define discrete distributions and the parameters can be estimated through MLE. If the values of $X$ are continuous, then the emissions define continuous probability distributions. As discussed earlier, parameters of Gaussian distribution can be estimated using MLE. Parameters of Gaussian mixture distribution can be estimated through EM algorithm.
+If values of the set of observed symbols $X$ are discrete, then the emissions define discrete distributions and the parameters can be estimated through MLE. If the values of $X$ are continuous, then the emissions define continuous probability distributions. As discussed earlier, parameters of Gaussian distribution can be estimated using MLE. Parameters of Gaussian mixture distribution can be estimated through EM algorithm.
 
 \paragraph{Baum-Welch training}
 
-Baum-Welch training is an alternative learning algorithm that is not based on the MLE approach. It will not be covered in this thesis, but its existence should be noted in case you are a curious reader \cite{hmm-lawrence}.
+Baum-Welch training is an alternative learning algorithm that is not based on the MLE approach. It does not require the sequences of hidden states for learning. This algorithm will not be covered in this thesis, but its existence should be noted in case you are a curious reader \cite{hmm-lawrence}.
 
 \subsection{Inference}
 
-Given a sequence of observed symbols, what is the most likely associated sequence of hidden states? Viterbi algorithm answers this question. Let's define $\alpha_t(i)$ to be the maximum probability of sequence of hidden states and observed symbols up to time point $t$:
-
+Given a sequence of observed symbols, the most likely associated sequence of hidden states is calculated using the Viterbi algorithm. Let's define $\alpha_t(i)$ to be the maximum probability of sequence of hidden states and observed symbols up to time point $t$:
 \begin{equation} \label{eq:hmm_viterbi_a}
 \alpha_t(i) = max_{y_1,y_2,\dots,y_{t-1}} P(y_1,y_2,\dots,y_{t-1},y_t = S_i,x_1,x_2,\dots,x_t | \lambda),
 \end{equation}
-
 where $\lambda$ are parameters of HMM model.
 
 \paragraph{Initialization}
 
-At time point $t=1$, the probability of being at hidden state $S_i$ is simply the initial probability of being at that state and a probability of being at observed state $x_1$ given hidden state $S_i$. In other words:
-
+At time point $t=1$, the probability of being at hidden state $S_i$ is simply the initial probability of being at that state and a probability of being at observed state $x_1$ given hidden state $S_i$. Formally:
 \begin{equation*}
 \alpha_1(i) = \pi_i b_i(x_1).
 \end{equation*}
 
 \paragraph{Recursion}
 Taking into account the structure of HMM, the equation \ref{eq:hmm_viterbi_a} can be rewritten recursively as
-
 \begin{equation} \label{eq:hmm_viterbi_a_rec}
 \alpha_t(j) = [\max_i \alpha_{t-1}(i)a_{ij}] b_j(x_t).
 \end{equation}
@@ -455,7 +445,7 @@ The score is then
 \begin{figure}
 	\centering
  	\includegraphics[width=0.7\textwidth]{hmm-graph}
- 	\caption{Visualization of a hidden Markov model with three states and a continuous observed variable.}
+ 	\caption{Visualization of a hidden Markov model with three states and a continuous observed variable. The gray arrows represent the initial probability vector.}
  	\label{fig:hmm_graph}
 \end{figure}
 
@@ -466,9 +456,9 @@ There is only one observed variable, which may not be sufficient for successful 
 
 \section{Bayesian network}
 
-Bayesian network is a probabilistic graphical model consisting of nodes and edges. The model is a directed acyclic graph (DAG). Every node describes a random variable which can be either discrete or continuous. Edges describe a conditional dependency among the nodes (variables).
+Bayesian network is a probabilistic graphical model consisting of nodes and edges. The model is a directed acyclic graph. Every node describes a random variable which can be either discrete or continuous. Edges describe a conditional dependency among the nodes (variables).
 
-As an example, consider a Bayesian network in figure \ref{fig:bn}. In the example, every node represents a discrete random variable with two possible states\textemdash\textit{true} and $false$. It can be interpreted that dehydration can cause red skin, but it can also influence presence of cancer. In addition, red skin may signal a lack of water intake, or the skin may be red because of cancer cells. Every node defines a conditional probability table (CPT) given nodes it depends on.
+As an example, consider a Bayesian network in figure \ref{fig:bn}. In the example, each node represents a discrete random variable with two possible states\textemdash\textit{true} and $false$. It can be interpreted that dehydration can cause red skin, but it can also influence presence of cancer. In addition, red skin may signal a lack of water intake, or the skin may be red because of cancer cells. Every node defines a conditional probability table (CPT) given nodes it depends on.
 
 \begin{figure}
 	\centering
@@ -584,9 +574,9 @@ DNBC is defined by
 \item{a number of observed variables $O$,}
 \item a set of hidden states $S = \{S_1, S_2, \dots, S_N\}$,
 \item{sets of observed symbols $X^j, j \in [1,O]$}
-\item a transition matrix $A \in \textbf R^{N \times N}$,
+\item a transition matrix $A \in \mathbb R^{N \times N}$,
 \item observation probability functions $B^j = \{b_1^j(o), b_2^j(o), \dots, b_N^j(o)\}, j \in [1,O]$,
-\item an initial probability vector $\pi \in \textbf R^N$.
+\item an initial probability vector $\pi \in \mathbb R^N$.
 
 \end{itemize}
 
@@ -617,11 +607,11 @@ For simplification, let's define $\textbf{x}$ to be all the observations of an i
 
 Similarly to HMM, there are three common operations that can be performed on DNBC\textemdash learning, inference and scoring.
 
-Learning is used to estimate the model parameters $\{\pi,A,B^1,B^2,\dots,B^O\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x^j | \lambda )$ is maximized. Where $M \in \textbf N$ is a number of sequences to be learned. $\textbf x^j$ is a \emph{j}-th sequence of observed symbols. In other words, it is desired to maximize the product of probabilities that the given sequence of observed symbols was generated by the given model.
+Learning is used to estimate the model parameters $\{\pi,A,B^{1:O}\} = \lambda$. It is desired to estimate the parameters such that $\prod_{j=1}^{M} P(\textbf x^j | \lambda )$ is maximized. Where $M \in \mathbb N$ is a number of sequences to be learned. $\textbf x^j$ is a \emph{j}-th sequence of observed symbols. In other words, it is desired to maximize the product of probabilities that the given sequence of observed symbols was generated by the given model.
 
 Inference returns the most likely sequence of hidden states, given sequences of observed symbols.
 
-Given a sequence of observations $\textbf{x}$, what is the probability that it was generated by DNBC with parameters $\lambda$? Scoring answers this question.
+Given a sequence of observations $\textbf{x}$, the probability that it was generated by DNBC with parameters $\lambda$ is called a score.
 
 \subsection{Learning}
 
@@ -630,7 +620,6 @@ The learning approach is similar to the one described in the case of HMM. The on
 \subsection{Inference}
 
 Viterbi algorithm can be applied in the similar way as in the case of HMM. It is extended to support multiple observed variables. Let's define $a_t(i)$ to be the maximum probability of sequence of hidden states and sequence of observations up to time point $t$:
-
 \begin{equation} \label{eq:dnbc_viterbi_a}
 a_t(i) = max_{y_1,y_2,\dots,y_{t-1}} P(y_1,y_2,\dots,y_{t-1},y_t = S_i,\textbf{x}_t| \lambda).
 \end{equation}
@@ -638,19 +627,16 @@ a_t(i) = max_{y_1,y_2,\dots,y_{t-1}} P(y_1,y_2,\dots,y_{t-1},y_t = S_i,\textbf{x
 \paragraph{Initialization}
 
 At time point $t=1$, the probability of being at hidden state $S_i$ is equal to the initial probability of being at that state and probabilities of being at observed symbol $x_1^j$ given hidden state $S_i$. In other words:
-
 \begin{equation*}
 \alpha_1(i) = \pi_i \prod_{j=1}^O b^j_i(x^j_1).
 \end{equation*}
 
 \paragraph{Recursion}
 Taking into account the structure of DNBC, the equation \ref{eq:dnbc_viterbi_a} can be rewritten recursively as
-
 \begin{equation} \label{eq:dnbc_viterbi_a_rec}
 \alpha_t(j) = [\max_i \alpha_{t-1}(i)a_{ij}] \prod_{k=1}^O b_j^k(x^k_t).
 \end{equation}
 Hidden state at particular time point $t$ is determined by
-
 \begin{equation*}
 s_t = S_{\argmax_i \alpha_{t}(i)}.
 \end{equation*}
@@ -1042,7 +1028,6 @@ I have described the theory behind dynamic naive Bayesian classifier (DNBC) and 
 	\item[ASR] average success rate
 	\item[API] application programming interface
 	\item[CPT] conditional probability table
-	\item[DAG] dynamic acyclic graph
 	\item[DNBC] dynamic naive Bayesian classifier
 	\item[EM] expectation-maximization
 	\item[GMM] Gaussian mixture model
