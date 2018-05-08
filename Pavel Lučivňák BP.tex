@@ -12,6 +12,7 @@
 
 \usepackage{graphicx} %graphics files inclusion
 \usepackage{amsmath} %advanced maths
+\usepackage{amsfonts} %for pretty N, R, ...
 \DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
 % \usepackage{amssymb} %additional math symbols
 
@@ -166,7 +167,7 @@ Both Gaussian distribution and Gaussian mixture distribution are widely used in 
 
 \chapter{Parameter estimation}
 \label{parameter-estimation-chapter}
-In context of this chapter, the goal of parameter estimation is to estimate parameters of a probability distribution in a way that describes given data the best.
+In this chapter, I briefly introduce parameter estimation that is commonly used in learning of DNBC. The goal of parameter estimation is to estimate parameters of a probability distribution in a way that describes given data the best.
 
 \section{Maximum likelihood estimation}
 Maximum likelihood estimation (MLE) is a technique for finding parameters of a probabilistic distribution that best describe a random variable. The method aims to maximize the likelihood of all the learning data.
@@ -179,7 +180,7 @@ Formally $\argmax_{\theta \in \Theta} \prod_{j=1}^{M} L(x_j, \theta)$, where:
 \item $X = \{x_1, x_2, \dots, x_M\}$ is a learning set of data points,
 \item \emph{L} is a likelihood function (defined further),
 \item $\theta$ describes model parameters,
-\item $\Theta$ is a set of all model parameters.
+\item $\Theta$ is a model parameters space.
 
 \end{itemize}
 
@@ -187,7 +188,7 @@ Formally $\argmax_{\theta \in \Theta} \prod_{j=1}^{M} L(x_j, \theta)$, where:
 
 Here I present a straightforward way of defining the likelihood function in case of discrete random variables. $L(x,\theta) = x_{cnt} / M$, where $x_{cnt}$ is the number of times $x \in X$ occurs in learning data. Since the likelihood function does not depend on parameter $\theta$, there is no expression to optimize.
 
-There is a reason I did not choose any standard discrete probability distribution to define $L$. The random variable does not have to be \textbf Z, nor \textbf N. In fact it can be any abstract object, such as an animal. A type, where comparison between two objects doesn't make sense. Therefore, it wouldn't make sense to assign non-zero probability to values that are not specified in learning phase.
+There is a reason I did not choose any standard discrete probability distribution to define $L$. The random variable does not have to be $\mathbb{Z}$, nor $\mathbb{N}$. In fact it can be any abstract object, where comparison between two objects doesn't make sense. Therefore, it wouldn't make sense to assign non-zero probability to values that are not specified in learning phase.
 
 As an example, consider the following data: \{dog, bird, dog, cat, bird, dog\}. Figure \ref{fig:discrete_mle_prob} shows a likelihood function $L$ associated with the data.
 
@@ -216,32 +217,21 @@ As an example, consider the following data: \{dog, bird, dog, cat, bird, dog\}. 
 \end{figure}
 
 The normal distribution is defined by $\theta = \{\mu, \sigma^2\}$. In MLE, the goal is to find parameter $\theta \in \Theta$, such that the product in \ref{eq:gaussian_mle_prod} is maximized.
-
 \begin{equation} \label{eq:gaussian_mle_prod}
 \prod_{j=1}^{M} L(x_j, \theta)
 \end{equation}
-
 In the case of Gaussian distribution, the likelihood function $L$ is defined by
-
 \begin{equation*}
 L(x, \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}},
 \end{equation*}
-
-\medskip
 where $x \in X$. Taking derivative of \ref{eq:gaussian_mle_prod} with respect to $\mu$ equal to 0 yields
-
 \begin{equation*}
 \sum_{j=1}^{M}{x_j - M \mu} = 0.
 \end{equation*}
-
-\bigskip
 Maximum likelihood estimate of $\mu$ is therefore
-
 \begin{equation*}
 \mu_{\text{est}} = \overline X_M.
 \end{equation*}
-
-\medskip
 Derivative of \ref{eq:gaussian_mle_prod} with respect to $\sigma^2$ equal to zero results in MLE of $\sigma^2$ to be
 
 \begin{equation*}
@@ -259,48 +249,38 @@ Figure \ref{fig:normal_mle} shows an example of MLE on a normally distributed ra
  	\label{fig:gaussian_mixture_est}
 \end{figure}
 
-Given the number of components $K$ components, there are component parameters $\theta_1, \theta_2, \dots, \theta_K$ and weights $w_1, w_2, \dots, w_K$ to estimate. In this section, I provide a description of expectation-maximization algorithm based on the lecture notes by Padhraic Smyth \cite{gaussian-mixture-em}. This algorithm provides an estimate of the aforementioned parameters.
+Given the number of components $K$ components, there are component parameters $\theta_1, \theta_2, \dots, \theta_K$ and weights $w_1, w_2, \dots, w_K$ to estimate. In this section, I provide a description of \textit{expectation-maximization algorithm} based on the lecture notes by Padhraic Smyth \cite{gaussian-mixture-em}. This algorithm provides an estimate of the aforementioned parameters.
 
 Let's define a membership weight $w_{jk}$, of data point $x_j$ in component $k$ as
-
 \begin{equation*}
 w_{jk} = \frac{\alpha_k \text{PDF}_{\mathcal{N}(\theta_k)}(x_j)}{\sum_{i=1}^K \alpha_i \text{PDF}_{\mathcal{N}(\theta_i)}(x_j)},
 \end{equation*}
-
 where $\alpha_k$ is a probability that a randomly selected $x_j$ was generated by the component $k$. $w_{jk}$ can be thought of as a level of certainty that $x_j$ was generated by the component $k$. $\sum_{k=1}^K w_{jk} = 1$ holds.
 
 The likelihood of all data points given Gaussian mixture parameters is defined as
-
 \begin{equation} \label{eq:gaussian_mixture_likelihood}
 l = \sum_{j=1}^{M} \sum_{k=1}^{K} \alpha_k \text{PDF}_{\mathcal{N}(\theta_k)}(x_j).
 \end{equation}
 
 EM is an iterative algorithm, typically iterating until convergence is detected. Each iteration consists of two parts, an E-step and an M-step. In the E-step, weight $w_{jk}$ is computed for each data point $x_j$ and component $k$. Define $W_k = \sum_{j=1}^{M} w_{jk}$, the weight of all data points in component $k$. In the M-step, new model parameters are calculated as follows:
-
 \begin{equation*}
 \alpha_k^{\text{new}} = \frac{W_k}{M},
 \end{equation*}
-
 \begin{equation*}
 \mu_k^{\text{new}} = \frac{\sum_{j=1}^M w_{jk} x_j}{W_k},
 \end{equation*}
-
 \begin{equation*}
-{\sigma_k^{2}}^{\text{new}} = \frac{\sum_{j=1}^M w_{jk} (x_j-\mu_k^{\text{new}})^2}{W_k}.
+{\sigma_k^{2}}^{\text{new}} = \frac{\sum_{j=1}^M w_{jk} (x_j-\mu_k^{\text{new}})^2}{W_k},
 \end{equation*}
-
-Where $\mu_k^{\text{new}}$ resembles standard equation for estimating mean, and 
+where $\mu_k^{\text{new}}$ resembles standard equation for estimating mean, and 
 ${\sigma_k^{2}}^{\text{new}}$ is similar to an equation for estimating variance. The differences are in weighting.
 
-In the beginning of the algorithm, an initial guess of model parameters is necessary. This can be chosen randomly or through a heuristic.
-
-Termination of the algorithm is determined by checking that the likelihood \ref{eq:gaussian_mixture_likelihood} of all data points hasn't improved enough in between iterations. In other words
-
+In the beginning of the algorithm, an initial guess of model parameters is necessary. This can be chosen randomly or through a heuristic. Termination of the algorithm is determined by checking that the likelihood \ref{eq:gaussian_mixture_likelihood} of all data points hasn't improved enough in between iterations. In other words
 \begin{equation*}
 l_{\text{cur}} - l_{\text{prev}} < \text{tol}.
 \end{equation*}
 
-One issue with the EM algorithm is that it does not guarantee to find a global optimum.
+One issue with the EM algorithm is that it does not guarantee to find a global optimum \cite{gaussian-mixture-em}.
 
 \chapter{Analysis}
 
