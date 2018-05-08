@@ -842,11 +842,11 @@ The implementation is available on GitHub \cite{dnbc-scala} or via the provided 
 
 \chapter{Experiments}
 
-In this section, I conduct experiments of two kinds. First, I focus on how well DNBC learns a realistic data set. Then I measure scalability potential and learning time on randomly generated data sets.
+In this section, I conduct experiments of two kinds. First, I focus on how well DNBC learns a realistic data set in terms of average success rate. Then I measure scalability potential and learning time in terms of speed up on randomly generated data sets.
 
 \section{Realistic data set}
 
-\subsection{Experiment design}
+\subsection{Data set description}
 
 I am using a Toy Robot data set \cite{robot-maze} as a base data set. Imagine a robot wandering through a maze. There are 12 hidden states. Every hidden state is a 2D coordinate. Each hidden state has an associated color. The color is a discrete observed variable that can take on 4 states: red, green, blue and yellow. The initial state is chosen randomly.
 
@@ -862,19 +862,21 @@ The data set contains of 200 training sequences and 200 test sequences. Each seq
 \paragraph{Measurement}
 For each realistic data set, an average success rate (ASR) is measured. This average is the average percentage of hidden states inferred correctly in the testing phase.
 
-\subsection{Experiments}
+\subsection{Experiment design}
+
+Experiments were divided into 5 scenarios. Each scenario differs in type of observed variable(s). The purpose of experiments is to show that my implementation yields reasonable results.
 
 \paragraph{Discrete variable}
-The Toy Robot data set contains a single observed discrete variable. ASR on this data set is 65\%.
+In this scenario, the Toy Robot data set contains a single observed discrete variable.
 
 \paragraph{Continuous variable}
-The Toy Robot data set is transformed to have a single continuous observed variable instead. Each color (discrete random variable) is replaced by a temperature. The idea is that the aforementioned 4 colors have different temperature distributions if sun is shedding light on the maze. ASR of this data set is 42\%.
+The Toy Robot data set is transformed to have a single continuous observed variable instead. Each color (discrete random variable) is replaced by a temperature. The idea is that the aforementioned 4 colors have different temperature distributions. These distributions, however, partially overlap.
 
 \paragraph{Discrete and continuous variable}
-A discrete observed variable is added to the continuous variable data set. This variable describes the quadrant of given 2D coordinate. It is assumed that these two variables are independent. ASR of this data set is 76\%.
+A discrete observed variable is added to the continuous variable data set. This variable describes the quadrant of given 2D coordinate. It is assumed that these two variables are independent.
 
 \paragraph{Gaussian mixture}
-A data set with single continuous observed variable is generated. Hidden states can take on two values: true and false. If the hidden state is true, observed state is generated from a Gaussian distribution. If the hidden state is false, observed state is generated from a Gaussian mixture distribution. The problem is demonstrated in figure \ref{fig:gaussian_data_set}. Point of this test is to check that providing a variable hint describing the number of mixture components improves the ASR. If the hint is not provided, the mixture would be represented by a Gaussian distribution that would interfere with the other Gaussian distribution. Indeed, ASR with correctly set variable hint is 3\% higher compared to a case where no hint is set.
+ Point of this test is to check that providing a variable hint describing the number of mixture components improves the ASR. If the hint is not provided, the mixture would be represented by a Gaussian distribution that would interfere with the other Gaussian distribution. A data set with single continuous observed variable is generated. Hidden states can take on two values: true and false. If the hidden state is true, observed state is generated from a Gaussian distribution. If the hidden state is false, observed state is generated from a Gaussian mixture distribution. The problem is demonstrated in figure \ref{fig:gaussian_data_set}.
 
 \begin{figure}
 	\centering
@@ -883,9 +885,25 @@ A data set with single continuous observed variable is generated. Hidden states 
 	\label{fig:gaussian_data_set}
 \end{figure}
 
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		data set & ASR [\%] \\
+		\hline
+		discrete & 65  \\
+		continuous & 42 \\
+		combined & 76 \\
+		Gaussian mixture (without hint) & 96 \\
+		Gaussian mixture (with hint) & 99 \\
+		\hline
+	\end{tabular}
+	\caption{Results on realistic data sets. There are two main reasons for relatively low success rates on the first two data sets: only 90\% of observed symbols are accurate and there are often multiple transitions to hidden states with the same observed symbol.}
+	\label{tab:realistic_results}
+\end{table}
+
 \paragraph{Scoring}
 A score is computed for a sequence of observed states that comes from a data set a DNBC was trained on. Another score is computed for a sequence of observed states that was generated randomly. Since the score is a log-probability, the values are negative. The following holds:
-
 \begin{equation*}
 \text{scoreReal} \times 1.5 > \text{scoreRandom}.
 \end{equation*}
@@ -930,7 +948,7 @@ The base parameters used for data set generations and performance measurement ar
 
 \paragraph{Local scalability}
 
-Goal of this measurement is to see how well the implementation scales as I increase the number of processors. There is only a single machine. The data sets had 30 discrete and 30 continuous observed variables. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Each configuration was measured 4 times to enable better understanding of the data.
+Goal of this measurement is to see how well the implementation scales as I increase the number of processors. Only a single machine is used. The data sets had 30 discrete and 30 continuous observed variables. Figure \ref{fig:parallel_learning_time} shows results of this measurement. Each configuration was measured 4 times to enable better understanding of the data.
 
 \begin{figure}
 	\centering
@@ -999,7 +1017,7 @@ Similar phenomenon can be seen when the number of observed continuous variables 
 \end{figure}
 
 \section{Summary}
-I have proved correctness of my implementation by measuring ASR on a realistic data sets. Scalability was demonstrated not only locally\textemdash on a single machine, but also in a computational cluster. It was shown that the learning time increases linearly as the number of discrete variables or training sequences grows.
+I have experimentally proved correctness of my implementation by measuring ASR on a realistic data sets. Scalability was demonstrated not only locally\textemdash on a single machine, but also in a computational cluster. As it can be seen in the aforementioned plots, the speed up is higher when using only a single machine. The communication between multiple machines takes extra time. The cluster mode may be more suitable on data sets with large number of observed variables or many transitions per hidden state.
 
 \begin{conclusion}
 I have described the theory behind dynamic naive Bayesian classifier (DNBC) and other models it is based on. Since no known suitable implementation currently exists in Scala, I have decided to implement DNBC by myself. I have demonstrated correctness of my implementation through realistic data sets. Furthermore, the software shows promising results in terms of speed up when used in a system with multiple processors. It has been shown that the learning time needed can be lowered by a half. Future improvement could be to implement an alternative learning algorithm: Baum-Welch training, and compare it to existing maximum likelihood estimation (MLE) based learning.
