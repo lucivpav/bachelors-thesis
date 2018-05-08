@@ -1020,7 +1020,9 @@ Similar phenomenon can be seen when the number of observed continuous variables 
 I have experimentally proved correctness of my implementation by measuring ASR on a realistic data sets. Scalability was demonstrated not only locally\textemdash on a single machine, but also in a computational cluster. As it can be seen in the aforementioned plots, the speed up is higher when using only a single machine. The communication between multiple machines takes extra time. The cluster mode may be more suitable on data sets with large number of observed variables or many transitions per hidden state.
 
 \begin{conclusion}
-I have described the theory behind dynamic naive Bayesian classifier (DNBC) and other models it is based on. Since no known suitable implementation currently exists in Scala, I have decided to implement DNBC by myself. I have demonstrated correctness of my implementation through realistic data sets. Furthermore, the software shows promising results in terms of speed up when used in a system with multiple processors. It has been shown that the learning time needed can be lowered by a half. Future improvement could be to implement an alternative learning algorithm: Baum-Welch training, and compare it to existing maximum likelihood estimation (MLE) based learning.
+I have described the theory behind dynamic naive Bayesian classifier (DNBC) and other models it is based on. Since no known suitable implementation currently exists in Scala, I have decided to implement DNBC by myself. I have demonstrated correctness of my implementation through realistic data sets. Furthermore, the software shows promising results in terms of speed up when used in a system with multiple processors. It has been shown that the learning time needed can be lowered by a half.
+
+Future improvement could be to implement an alternative learning algorithm: Baum-Welch training, and compare it to existing maximum likelihood estimation (MLE) based learning.
 \end{conclusion}
 
 \bibliographystyle{iso690}
