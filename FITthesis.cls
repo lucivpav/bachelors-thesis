@@ -512,10 +512,7 @@ sp\^ osobom, ktor\'y nezni\v zuje hodnotu Diela (vr\'atane komer\v cn\'eho vyu\v
 
 \AfterEndPreamble{
 	\thispagestyle{empty}
-	\if\@lang1{}
-	\else\if\@lang2{Sem vlo{\v z}te zadanie Va{\v s}ej pr{\' a}ce.}\else{
-	
-	}\fi\fi
+	\includepdf[pages={-}]{assignment.pdf}
 
 	\frontmatter
 	\pagestyle{plain}
